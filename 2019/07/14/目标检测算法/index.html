@@ -354,22 +354,22 @@
 <p><a href="https://blog.csdn.net/shenxiaolu1984/article/details/51066975" target="_blank" rel="noopener">R-CNN论文补充</a></p>
 <p><a href="https://arxiv.org/abs/1311.2524" target="_blank" rel="noopener">RCNN原版论文</a></p>
 <p><a href="https://www.cnblogs.com/pengsky2016/p/7921857.html" target="_blank" rel="noopener">RCNN论文翻译</a></p>
-<ol start="2">
+<ol>
 <li><a href="https://blog.csdn.net/wopawn/article/details/52463853" target="_blank" rel="noopener">Fast-RCNN论文详解</a></li>
 </ol>
 <p><a href="https://zhuanlan.zhihu.com/p/24780433" target="_blank" rel="noopener">原始图片中的ROI如何映射到feature map</a></p>
 <p><a href="https://blog.csdn.net/clearch/article/details/80224223" target="_blank" rel="noopener">目标检测中的正负样本</a></p>
 <p><a href="https://blog.csdn.net/JNingWei/article/details/80337660" target="_blank" rel="noopener">Faster-RCNN框架图</a></p>
-<ol start="2">
+<ol>
 <li><a href="https://blog.csdn.net/Zachary_Co/article/details/78890768" target="_blank" rel="noopener">Faster-R-CNN论文及源码解读</a>  <a href="https://blog.csdn.net/shenxiaolu1984/article/details/51152614" target="_blank" rel="noopener">FasterRCNN 算法详解</a> </li>
 </ol>
 <p><a href="https://blog.csdn.net/sloanqin/article/details/51545125" target="_blank" rel="noopener">Faster-RCNN之RPN网络结构</a></p>
-<ol start="3">
+<ol>
 <li><a href="https://github.com/smallcorgi/Faster-RCNN_TF" target="_blank" rel="noopener">Faster-RCNNtensorflow源码</a> </li>
 </ol>
 <p>4.<a href="https://blog.csdn.net/antkillerfarm/article/details/79192385" target="_blank" rel="noopener">SSD,YOLOv2</a> </p>
 <p><a href="https://blog.csdn.net/hrsstudy/article/details/70305791" target="_blank" rel="noopener">YOLOv1论文理解</a></p>
-<p><a href="https://www.bilibili.com/video/av23354360?from=search&seid=11420157511609910495" target="_blank" rel="noopener">YOLOV1讲解视频</a></p>
+<p><a href="https://www.bilibili.com/video/av23354360?from=search&amp;seid=11420157511609910495" target="_blank" rel="noopener">YOLOV1讲解视频</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/24954433" target="_blank" rel="noopener"><code>SDD模型知乎       专栏讲解</code></a></p>
 <p><a href="https://blog.csdn.net/lanyuxuan100/article/details/70800246" target="_blank" rel="noopener">语义分割和实例分割的差别</a></p>
 <p>5.<a href="https://blog.csdn.net/guoyunfei20/article/details/78723646" target="_blank" rel="noopener">选择性搜索（selective search)</a> </p>
@@ -385,7 +385,7 @@
 <p><a href="https://github.com/vdumoulin/conv_arithmetic#convolution-arithmetic" target="_blank" rel="noopener">A technical report on convolution arithmetic in the context of deep learning</a></p>
 <p>个人理解，博客中说,FCN论文中提到了双线性插值但在实现的时候用的是反卷积，反卷积的参数是可以被训练的，在 <a href="https://www.zhihu.com/question/63890195" target="_blank" rel="noopener">实现过程中双线性插值可以用反卷积的方式实现即使用双线性初始化卷积核</a>，然后把学习率设为0.而反卷积的具体实现方式 （程序内部）是采用转置卷积的方式实现。个人理解反卷积应该不属于上采样，而双线性插值才属于上采样</p>
 <p><a href="https://blog.csdn.net/u014722627/article/details/60574260/" target="_blank" rel="noopener">计算机视觉中的三种上采样方式</a>（写的最清楚的一篇）</p>
-<p><a href="https://blog.csdn.net/haoji007/article/details/78445298" target="_blank" rel="noopener">语义分割–FCN 算法中的一些细节–特征怎么融合</a></p>
+<p><a href="https://blog.csdn.net/haoji007/article/details/78445298" target="_blank" rel="noopener">语义分割—FCN 算法中的一些细节—特征怎么融合</a></p>
 <p><a href="https://blog.csdn.net/haoji007/article/details/78445298" target="_blank" rel="noopener">FCN学习</a></p>
 <p><a href="https://blog.csdn.net/gyh_420/article/details/78570415" target="_blank" rel="noopener">FCN学习（写的较好）</a></p>
 <p><a href="https://www.cnblogs.com/dmzhuo/p/6151434.html" target="_blank" rel="noopener">卷积中卷积方式same，valid</a></p>
@@ -534,78 +534,22 @@
 <p>$t_y=(G_y−P_y)/P_h$  (7) </p>
 <p>$t_w=log(G_w/P_w)$    (8)</p>
 <p>$t_h=log(G_h/P_h)$     (9)</p>
-<p>①构造样本对。为了提高每类样本框回归的有效性，对每类样本都仅仅采集与Ground Truth相交IoU最大的Region Proposal，并且IoU&gt;0.6的Region Proposal作为样本对$(P_i，G_i)$，一共产生20对样本对【20个类别】； ?可以产生20个样本对吗？<br>②每种类型的回归器单独训练，输入该类型样本对N个：${(P_i,G_i)} i=1⋯N$以及$P^i_{i=1⋯N}$所对应的AlexNet CNN网络Pool5层特征$\phi5(P^i)<em>{i=1⋯N}$；<br>③利用(6)-(9)式和输入样本对${(P_i,G_i)}</em>{i=1⋯N}$计算$t^i_{∗i=1⋯N}$；<br>④利用$\phi5(P_i)<em>{i=1⋯N}$$和$$^i</em>{∗i=1⋯N}$，根据损失函数(5)进行回归，得到使损失函数最小的参数$w^T_∗$。</p>
+<p>①构造样本对。为了提高每类样本框回归的有效性，对每类样本都仅仅采集与Ground Truth相交IoU最大的Region Proposal，并且IoU&gt;0.6的Region Proposal作为样本对$(P_i，G_i)$，一共产生20对样本对【20个类别】； ?可以产生20个样本对吗？<br>②每种类型的回归器单独训练，输入该类型样本对N个：${(P_i,G_i)} i=1⋯N$以及$P^i_{i=1⋯N}$所对应的AlexNet CNN网络Pool5层特征$\phi5(P^i)_{i=1⋯N}$；<br>③利用(6)-(9)式和输入样本对${(P_i,G_i)}_{i=1⋯N}$计算$t^i_{∗i=1⋯N}$；<br>④利用$\phi5(P_i)_{i=1⋯N}<script type="math/tex">和</script>^i_{∗i=1⋯N}$，根据损失函数(5)进行回归，得到使损失函数最小的参数$w^T_∗$。</p>
 <h4 id="7-训练过程"><a href="#7-训练过程" class="headerlink" title="7.训练过程"></a>7.<strong>训练过程</strong></h4><ol>
 <li><p>有监督预训练</p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>ILSVRC2012</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>ILSVRC2012</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源       |<br>| ——— | ————— |<br>| 正样本 | ILSVRC2012 |<br>| 负样本 | ILSVRC2012 |</p>
 <p>ILSVRC样本集上仅有图像类别标签，没有图像物体位置标注；<br>采用AlexNet CNN网络进行有监督预训练，学习率=0.01；<br>该网络输入为227×227的ILSVRC训练集图像，输出最后一层为4096维特征-&gt;1000类的映射，训练的是网络参数。</p>
 </li>
 <li><p>特定样本下的微调</p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>Ground Truth+与Ground Truth相交IoU&gt;0.5的建议框【由于Ground Truth太少了】</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>与Ground Truth相交IoU≤0.5的建议框</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源                                                         |<br>| ——— | —————————————————————————————— |<br>| 正样本 | Ground Truth+与Ground Truth相交IoU&gt;0.5的建议框【由于Ground Truth太少了】 |<br>| 负样本 | 与Ground Truth相交IoU≤0.5的建议框                            |</p>
 <p>PASCAL VOC 2007样本集上既有图像中物体类别标签，也有图像中物体位置标签；<br>采用训练好的AlexNet CNN网络进行PASCAL VOC 2007样本集下的微调，学习率=0.001【0.01/10为了在学习新东西时不至于忘记之前的记忆】；<br>mini-batch为32个正样本和96个负样本【由于正样本太少】；<br>该网络输入为建议框【由selective search而来】变形后的227×227的图像，修改了原来的1000为类别输出，改为21维【20类+背景】输出，训练的是网络参数。</p>
 </li>
 <li><p>SVM训练</p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>Ground Truth</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>与Ground Truth相交IoU＜0.3的建议框</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源                               |<br>| ——— | ————————————————— |<br>| 正样本 | Ground Truth                       |<br>| 负样本 | 与Ground Truth相交IoU＜0.3的建议框 |</p>
 <p>由于SVM是二分类器，需要为每个类别训练单独的SVM；<br>SVM训练时输入正负样本在AlexNet CNN网络计算下的4096维特征，输出为该类的得分，训练的是SVM权重向量；<br>由于负样本太多，采用hard negative mining的方法在负样本中选取有代表性的负样本。</p>
 </li>
 <li><p>Bounding-box regression训练</p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>与Ground Truth相交IoU最大的Region Proposal，并且IoU&gt;0.6的Region Proposal</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源                                                         |<br>| ——— | —————————————————————————————— |<br>| 正样本 | 与Ground Truth相交IoU最大的Region Proposal，并且IoU&gt;0.6的Region Proposal |</p>
 <p>输入数据为某类型样本对N个：{(Pi,Gi)}i=1⋯N以及Pii=1⋯N所对应的AlexNet CNN网络Pool5层特征ϕ5(Pi)i=1⋯N，输出回归后的建议框Bounding-box，训练的是dx(P)，dy(P)，dw(P)，dh(P)四种变换操作的权重向量。具体见前面分析。</p>
 <h4 id="8-解释分析"><a href="#8-解释分析" class="headerlink" title="8.解释分析"></a>8.解释分析</h4><ol>
 <li><p>什么叫有监督预训练？为什么要进行有监督预训练？</p>
@@ -666,7 +610,7 @@
 <li>特征图：指的是上图中所示的特征图，在Fast RCNN中，它位于RoI Pooling之前，在Faster RCNN中，它是与RPN共享那个特征图，通常我们常常称之为“share_conv”； </li>
 <li>rois：在Fast RCNN中，指的是Selective Search的输出；在Faster RCNN中指的是RPN的输出，一堆矩形候选框框，形状为1x5x1x1（4个坐标+索引index），其中值得注意的是：坐标的参考系不是针对feature map这张图的，而是针对<strong>原图</strong>的（神经网络最开始的输入）</li>
 </ol>
-<h2 id="ROI-Pooling的输出"><a href="#ROI-Pooling的输出" class="headerlink" title="ROI Pooling的输出"></a><strong>ROI Pooling的输出</strong></h2><p>输出是batch个vector，其中batch的值等于RoI的个数，vector的大小为channel * w * h；RoI Pooling的过程就是将一个个大小不同的box矩形框，都映射成大小固定（w * h）的矩形框；</p>
+<h2 id="ROI-Pooling的输出"><a href="#ROI-Pooling的输出" class="headerlink" title="ROI Pooling的输出"></a><strong>ROI Pooling的输出</strong></h2><p>输出是batch个vector，其中batch的值等于RoI的个数，vector的大小为channel <em> w </em> h；RoI Pooling的过程就是将一个个大小不同的box矩形框，都映射成大小固定（w * h）的矩形框；</p>
 <h2 id="ROI-Pooling的过程"><a href="#ROI-Pooling的过程" class="headerlink" title="ROI Pooling的过程"></a><strong>ROI Pooling的过程</strong></h2><p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1fspt100ipvj31kw23vb29.jpg" alt="这里写图片描述"></p>
 <p>如图所示，我们先把roi中的坐标映射到feature map上，映射规则比较简单，就是把各个坐标除以“输入图片与feature map的大小的比值”，得到了feature map上的box坐标后，我们使用Pooling得到输出；由于输入的图片大小不一，所以这里我们使用的类似Spp Pooling，在Pooling的过程中需要计算Pooling后的结果对应到feature map上所占的范围，然后在那个范围中进行取max或者取average。</p>
 <p><a href="https://blog.csdn.net/auto1993/article/details/78514071" target="_blank" rel="noopener">ROIpooling层正向传播过程</a></p>
@@ -692,44 +636,11 @@
 <p>为什么R-CNN中采用SVM分类而不直接用CNN网络输出端进行分类已经在R-CNN博客中说明，针对Fast R-CNN，文中分别进行实验并对比了采用SVM和采用softmax的mAP结果，不管AlexNet【S for small】、VGG_CNN_M_1024【M for medium】、VGG-16【L for large】中任意网络，采用softmax的mAP都比采用SVM的mAP高0.1%~0.8%，这是由于softmax在分类过程中引入了类间竞争，分类效果更好；Fast R-CNN去掉了SVM这一步，所有的特征都暂存在显存中，就不需要额外的磁盘空间。 </p>
 <h4 id="2-训练过程"><a href="#2-训练过程" class="headerlink" title="2.训练过程"></a>2.<strong>训练过程</strong></h4><ol>
 <li><p><strong>有监督预训练</strong></p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>ILSVRC 20XX</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>ILSVRC 20XX</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源        |<br>| ——— | —————- |<br>| 正样本 | ILSVRC 20XX |<br>| 负样本 | ILSVRC 20XX |</p>
 <p>ILSVRC 20XX样本只有类别标签，有1000种物体；<br>文中采用AlexNet【S for small】、VGG_CNN_M_1024【M for medium】、VGG-16【L for large】这三种网络分别进行训练测试，下面仅以VGG-16举例。</p>
 </li>
 <li><p><strong>特定样本下的微调</strong></p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>比例</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>25%</td>
-<td>与某类Ground Truth相交IoU∈[0.5,1]的候选框</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>75%</td>
-<td>与20类Ground Truth相交IoU中最大值∈[0.1,0.5）的候选框</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 比例 | 来源                                                 |<br>| ——— | —— | —————————————————————————— |<br>| 正样本 | 25%  | 与某类Ground Truth相交IoU∈[0.5,1]的候选框            |<br>| 负样本 | 75%  | 与20类Ground Truth相交IoU中最大值∈[0.1,0.5）的候选框 |</p>
 <p>PASCAL VOC数据集中既有物体类别标签，也有物体位置标签，有20种物体；<br>正样本仅表示前景，负样本仅表示背景；<br>回归操作仅针对正样本进行；<br>该阶段训练集扩充方式：50%概率水平翻转；</p>
 <p>微调前，需要对有监督预训练后的模型进行3步转化：<br>①RoI池化层取代有监督预训练后的VGG-16网络最后一层池化层；<br>②两个并行层取代上述VGG-16网络的最后一层全连接层和softmax层，并行层之一是新全连接层1+原softmax层1000个分类输出修改为21个分类输出【20种类+背景】，并行层之二是新全连接层2+候选区域窗口回归层，如下图所示；<br>③上述网络由原来单输入：一系列图像修改为双输入：一系列图像和这些图像中的一系列候选区域；</p>
 <p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1fsr7rdzezzj30dr05atbg.jpg" alt="这里写图片描述"></p>
@@ -739,52 +650,7 @@
 <li><p>Fast R-CNN如何采样进行SGD训练，和R-CNN、SPPnet中SGD采样方式有什么区别和优势？<br>R-CNN和SPPnet中采用RoI-centric sampling：从所有图片的所有候选区域中均匀取样，这样每个SGD的mini-batch中包含了不同图像的样本，不同图像之间不能共享卷积计算和内存，运算开销大；<br>Fast R-CNN中采用image-centric sampling： mini-batch采用层次采样，即先对图像采样【N个】，再在采样到的图像中对候选区域采样【每个图像中采样R/N个，一个mini-batch共计R个候选区域样本】，同一图像的候选区域卷积共享计算和内存，降低了运算开销；<br>image-centric sampling方式采样的候选区域来自于同一图像，相互之间存在相关性，可能会减慢训练收敛的速度，但是作者在实际实验中并没有出现这样的担忧，反而使用N=2，R=128的image-centric sampling方式比R-CNN收敛更快。</p>
 </li>
 <li><p>训练数据越多效果越好吗？</p>
-<table>
-<thead>
-<tr>
-<th>实验</th>
-<th>训练集</th>
-<th>测试集</th>
-<th>mAP</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>实验1</td>
-<td>VOC 2007训练集</td>
-<td>VOC 2007测试集</td>
-<td>66.9%</td>
-</tr>
-<tr>
-<td>实验1</td>
-<td>VOC 2007+VOC 2012训练集</td>
-<td>VOC 2007测试集</td>
-<td>70.0%</td>
-</tr>
-<tr>
-<td>实验2</td>
-<td>VOC 2012训练集</td>
-<td>VOC 2010测试集</td>
-<td>66.1%</td>
-</tr>
-<tr>
-<td>实验2</td>
-<td>VOC 2007+VOC 2012训练集+VOC2007测试集</td>
-<td>VOC 2010测试集</td>
-<td>68.8%</td>
-</tr>
-<tr>
-<td>实验3</td>
-<td>VOC 2012训练集</td>
-<td>VOC 2012测试集</td>
-<td>65.7%</td>
-</tr>
-<tr>
-<td>实验3</td>
-<td>VOC 2007+VOC 2012训练集+VOC2007测试集</td>
-<td>VOC 2012测试集</td>
-<td>68.4%</td>
-</tr>
-</tbody></table>
+<p>| 实验  | 训练集                                | 测试集         | mAP   |<br>| ——- | ——————————————————- | ——————— | ——- |<br>| 实验1 | VOC 2007训练集                        | VOC 2007测试集 | 66.9% |<br>| 实验1 | VOC 2007+VOC 2012训练集               | VOC 2007测试集 | 70.0% |<br>| 实验2 | VOC 2012训练集                        | VOC 2010测试集 | 66.1% |<br>| 实验2 | VOC 2007+VOC 2012训练集+VOC2007测试集 | VOC 2010测试集 | 68.8% |<br>| 实验3 | VOC 2012训练集                        | VOC 2012测试集 | 65.7% |<br>| 实验3 | VOC 2007+VOC 2012训练集+VOC2007测试集 | VOC 2012测试集 | 68.4% |</p>
 <p>文中分别在VOC 2007、VOC 2010、VOC 2012测试集上测试，发现训练数据越多，效果确实更好。这里微调时采用100k次迭代，每40k次迭代学习率都缩小10倍。</p>
 </li>
 <li><p>哪些层参数需要被微调？<br>SPPnet论文中采用ZFnet【AlexNet的改进版】这样的小网络，其在微调阶段仅对全连接层进行微调，就足以保证较高的精度，作者文中采用VGG-16【L for large】网路，若仅仅只对全连接层进行微调，mAP会从66.9%降低到61.4%， 所以文中也需要对RoI池化层之前的卷积层进行微调；</p>
@@ -818,8 +684,8 @@
 </ol>
 <p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1fssc2v8o77j30br08ujro.jpg" alt="这里写图片描述"></p>
 <p>那多任务训练有效果吗？<br>首先不看多任务训练效果，至少比起R-CNN其训练方便、简洁。多任务训练考虑各任务间共享卷积层的相互影响，是有潜在可能提高检测效果的；<br>文中通过实验发现AlexNet【S for small】、VGG_CNN_M_1024【M for medium】、VGG-16【L for large】三种网络采用多任务训练比不采用mAP提高了0.8%~1.1%【测试时不采用Bounding-box regression】。 </p>
-<ol start="5">
-<li>RoI池化层如何进行反向求导训练？<br>首先看普通max pooling层如何求导，设xi为输入层节点，yi为输出层节点，那么损失函数L对输入层节点xi的梯度为        $\frac{∂<em>L}{∂</em>{x_i}}=\begin{cases}0,&amp;δ(i,j)=false\ \frac{∂<em>L}{∂</em>{yj}}&amp;{δ(i,j)=true }\end{cases}$</li>
+<ol>
+<li>RoI池化层如何进行反向求导训练？<br>首先看普通max pooling层如何求导，设xi为输入层节点，yi为输出层节点，那么损失函数L对输入层节点xi的梯度为        $\frac{∂_L}{∂_{x_i}}=\begin{cases}0,&amp;δ(i,j)=false\ \frac{∂_L}{∂_{yj}}&amp;{δ(i,j)=true }\end{cases}$</li>
 </ol>
 </li>
 </ol>
@@ -828,9 +694,9 @@
 <p>   对于RoI max pooling层，设$x_i$为输入层的节点，$y_{ri}$ 为第r个候选区域的第j个输出节点，一个输入节点可能和多个输出节点相关连，因为这些feature map 都是由RoI投射过来的，如下图所示，输入节点7和两个候选区域输出节点相关连（怎么判断它和哪个候选区域相连？）；</p>
 <p>   <img src="https://ws1.sinaimg.cn/large/0069RVTdly1fu0chcjjmlj30ww0gydiv.jpg" alt="屏幕快照 2018-08-06 下午10.20.08"></p>
 <p>   该输入节点7的反向传播如下图所示。对于不同候选区域，节点7都存在梯度，所以反向传播中损失函数L对输入层节点xi的梯度为损失函数L对各个有可能的候选区域r【xi被候选区域r的第j个输出节点选为最大值 】输出yri梯度的累加，具体如下公式所示：</p>
-<p>   $\frac{∂<em>L}{∂</em>{xi}}=∑<em>r∑_j[i=i^∗(r,j)]\frac{∂L}{∂y</em>{rj}}$</p>
+<p>   $\frac{∂_L}{∂_{xi}}=∑_r∑_j[i=i^∗(r,j)]\frac{∂L}{∂y_{rj}}$</p>
 <p>​    </p>
-<p>   $[i=i∗(r,j)]=\begin{cases}1,&amp;i=i∗(r,j)≥1\0,&amp;otherwise\end{cases} $</p>
+<p>   $[i=i∗(r,j)]=\begin{cases}1,&amp;i=i∗(r,j)≥1\\0,&amp;otherwise\end{cases} $</p>
 <p>   判决函数$[i=i^*(r,j)]$表示i节点是否被候选区域r的第j个输出节点选为最大值输出，若是，则由链式规则可知损失函数L相对xi的梯度等于损失函数L相对$y_{rj}$的梯度x（$y_{rj}$对$x_i$的梯度-&gt;恒等于1)，上图已然解释该输入节点可能会和不同的yrj有关系，故损失函数L相对xi的梯度为求和形式。</p>
 <h4 id="4-结果怎么样"><a href="#4-结果怎么样" class="headerlink" title="4.结果怎么样"></a>4.<strong>结果怎么样</strong></h4><ol>
 <li>PASCAL VOC 2007训练集上，使用VGG-16【L for large】网络Fast R-CNN训练时间为9.5h，同等条件下R-CNN需要84h，快8.8倍；</li>
@@ -885,61 +751,16 @@
 <p>​       </p>
 <h4 id="5-训练过程"><a href="#5-训练过程" class="headerlink" title="5.训练过程"></a>5.训练过程</h4><ol>
 <li><p><strong>RPN网络预训练</strong></p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>ILSVRC20XX</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>ILSVRC20XX</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源       |<br>| ——— | ————— |<br>| 正样本 | ILSVRC20XX |<br>| 负样本 | ILSVRC20XX |</p>
 <p>样本中只有类别标签；<br>文中一带而过RPN网络被ImageNet网络【ZF或VGG-16】进行了有监督预训练，利用其训练好的网络参数初始化；<br>用标准差0.01均值为0的高斯分布对新增的层随机初始化。</p>
 </li>
 <li><p><strong>Fast R-CNN网络预训练</strong></p>
-<table>
-<thead>
-<tr>
-<th>样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>ILSVRC20XX</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>ILSVRC20XX</td>
-</tr>
-</tbody></table>
+<p>| 样本   | 来源       |<br>| ——— | ————— |<br>| 正样本 | ILSVRC20XX |<br>| 负样本 | ILSVRC20XX |</p>
 <p>样本中只有类别标签；</p>
 <p>文中一带而过Fast-RCNN网络被imageNet网络【ZF或VGG-16】进行了有监督预训练，利用其训练好的网络 参数初始化。</p>
 </li>
 <li><p><strong>RPN网络微调训练</strong></p>
-<table>
-<thead>
-<tr>
-<th>RPN网络样本</th>
-<th>来源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正样本</td>
-<td>与Ground Truth相交IoU最大的anchors【以防后一种方式下没有正样本】+与Ground Truth相交IoU&gt;0.7的anchors</td>
-</tr>
-<tr>
-<td>负样本</td>
-<td>与Ground Truth相交IoU&lt;0.3的anchors</td>
-</tr>
-</tbody></table>
+<p>| RPN网络样本 | 来源                                                         |<br>| —————- | —————————————————————————————— |<br>| 正样本      | 与Ground Truth相交IoU最大的anchors【以防后一种方式下没有正样本】+与Ground Truth相交IoU&gt;0.7的anchors |<br>| 负样本      | 与Ground Truth相交IoU&lt;0.3的anchors                           |</p>
 <p> PASACAL VOC 数据集中既有物体类别标签，也有物体位置标签；</p>
 <p>正样本仅表示前景，负样本仅表示背景；</p>
 <p>正样本仅表示前景，负样本仅表示背景；</p>
@@ -950,12 +771,12 @@
 <p><strong>SGDmini-batch采样方式</strong>：同Fast-RCNN网络，采取“image-centric”方式采样，即采用层次采样，先对图像采样，再对anchors取样，同一图像的anchors共享计算和内存。每个mini-batch包含从一张图像中随机提取的256个anchors，正负样本比例为1：1，如果一张图片 不够128个样本，拿负样本补齐。</p>
 <p><strong>训练超参数选择：</strong> 在PASCAL VOC数据集上前60k次迭代的学习效率为0.001，后20K次迭代的学习率为0.0001；动量设置为0.9，权重衰减设置为0.0005.</p>
 <p>一张图片多任务目标函数【分类+回归损失】具体如下：</p>
-<p>$L({p_i},{t_i})=\frac{1}{N_{cls}}∑<em>iLcls(p_i,p_i^∗)+λ\frac{1}{N</em>{reg}}∑<em>ip^∗_iL</em>{reg}(t_i,t^∗_i)$ </p>
+<p>$L({p_i},{t_i})=\frac{1}{N_{cls}}∑_iLcls(p_i,p_i^∗)+λ\frac{1}{N_{reg}}∑_ip^∗_iL_{reg}(t_i,t^∗_i)$ </p>
 <p>当anchor为正样本时，$p_i^<em>=1$,当anchor为负样本时$p_i^</em>=0$,由此可以看出，回归损失仅在anchor为正样本时才被激活。</p>
 <p>$t_i$表示正样本anchor到预测区域的4个平移缩放参数【以anchor为基准的变换】；$t_i^*$表示正样本anchor到groundtruth的4个平移缩放参数。【以anchor为基准的变换】；</p>
 <p>分类损失函数</p>
 <p>$L_{cls}$是一个二值【是物体或者不是物体】分类器，</p>
-<p>$L_{cls}(p_i,p_i^<em>)=-log[p_i^*p_i+(1-p_i^</em>)(1-p_i)]$;</p>
+<p>$L_{cls}(p_i,p_i^<em>)=-log[p_i^</em>p_i+(1-p_i^*)(1-p_i)]$;</p>
 <p>回归损失函数$L_reg(t_i,t_i^<em>)=R(t_i-t_i^</em>)$[两种变换之差越小越好]，R函数定义如下：</p>
 </li>
 </ol>
@@ -966,6 +787,7 @@
 <p>​     $N_{cls}$和$N_{reg}$分别用来标准化分类损失项$L_{cls}$ 和回归损失项$L_{reg}$，默认用mini-batch size=256设置$N_{cls}$，用anchor位置数目~2400初始化$N_{reg}$，文中也说明标准化操作并不是必须的，可以简化省略。</p>
 <p>​         </p>
 <p>​     4.<strong>Fast R-CNN网络微调训练</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -973,7 +795,8 @@
 <th>来源</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>正样本</td>
 <td>Ground Truth +与Ground Truth相交IoU&gt;阈值的区域建议</td>
 </tr>
@@ -981,7 +804,9 @@
 <td>负样本</td>
 <td>与Ground Truth相交IoU&lt;阈值的区域建议</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>​     PASCAL VOC 数据集中既有物体类别标签，也有物体位置标签；<br>​     正样本表示每类物品的Ground Truth以及与Ground Truth重叠度超过某一阈值的区域建议，负样本表示同Ground Truth重叠度小于某一阈值的区域建议；<br>​     回归操作仅针对正样本进行。</p>
 <p>​     5.<strong>RPN网络、Fast R-CNN网络联合训练</strong> </p>
 <p>​     训练网络结构示意图如下所示：</p>
@@ -1004,7 +829,7 @@
 <p>​        文中提到， Fast R-CNN中基于RoI的bounding-box回归所输入的特征是在特征图上对任意size的RoIs进行Pool操作提取的，所有size RoI共享回归参数，而在Faster R-CNN中，用来bounding-box回归所输入的特征是在特征图上相同的空间size【3×3】上提取的，为了解决不同尺度变化的问题，同时训练和学习了k个不同的回归器，依次对应为上述9种anchors，这k个回归量并不分享权重。因此尽管特征提取上空间是固定的【3×3】，但由于anchors的设计，仍能够预测不同size的窗口。</p>
 <p>​     2.文中提到了三种共享特征网络的训练方式？<br>​     ① 交替训练<br>​     训练RPN，得到的区域建议来训练Fast R-CNN网络进行微调；此时网络用来初始化RPN网络，迭代此过程【文中所有实验采用】；</p>
 <p>​     ② 近似联合训练<br>​     如上图所示，合并两个网络进行训练，前向计算产生的区域建议被固定以训练Fast R-CNN；反向计算到共享卷积层时RPN网络损失和Fast R-CNN网络损失叠加进行优化，但此时把区域建议【Fast R-CNN输入，需要计算梯度并更新】当成固定值看待，忽视了Fast R-CNN一个输入：区域建议的导数，则无法更新训练，所以称之为近似联合训练。实验发现，这种方法得到和交替训练相近的结果，还能减少20%~25%的训练时间，公开的python代码中使用这种方法；</p>
-<p>​     ③ 联合训练<br>​     需要RoI池化层对区域建议可微，需要RoI变形层实现，具体请参考这片paper：<a href="http://xueshu.baidu.com/s?wd=paperuri:%28afbf3253b7d82a976a553564844442fa%29&filter=sc_long_sign&tn=SE_xueshusource_2kduw22v&sc_vurl=http://arxiv.org/abs/1512.04412&ie=utf-8&sc_us=10457437465023674419" target="_blank" rel="noopener">Instance-aware Semantic Segmentation via Multi-task Network Cascades</a>。</p>
+<p>​     ③ 联合训练<br>​     需要RoI池化层对区域建议可微，需要RoI变形层实现，具体请参考这片paper：<a href="http://xueshu.baidu.com/s?wd=paperuri:%28afbf3253b7d82a976a553564844442fa%29&amp;filter=sc_long_sign&amp;tn=SE_xueshusource_2kduw22v&amp;sc_vurl=http://arxiv.org/abs/1512.04412&amp;ie=utf-8&amp;sc_us=10457437465023674419" target="_blank" rel="noopener">Instance-aware Semantic Segmentation via Multi-task Network Cascades</a>。</p>
 <p>​         </p>
 <p>​     文中训练过程</p>
 <p>​     第一步：用model初始化RPN网络，然后训练RPN，在训练后，model以及RPN的unique会被更新。 </p>
@@ -1017,26 +842,7 @@
 <p>​     <strong>&amp;结果怎么样</strong></p>
 <ol>
 <li><p>PASCAL VOC实验【使用ZF网络】</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>数目</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>目标类别</td>
-<td>20</td>
-</tr>
-<tr>
-<td>PASCAL VOC 2007训练集</td>
-<td>5k</td>
-</tr>
-<tr>
-<td>PASCAL VOC 2007测试集</td>
-<td>5k</td>
-</tr>
-</tbody></table>
+<p>| 属性                  | 数目 |<br>| ——————————- | —— |<br>| 目标类别              | 20   |<br>| PASCAL VOC 2007训练集 | 5k   |<br>| PASCAL VOC 2007测试集 | 5k   |</p>
 <p>a.第1组实验<br>目的：验证RPN方法的有效性；<br>做法：ZF检测网络训练和测试时分别使用Selective Search、EdgeBoxes和RPN+ZF【共享】方法，Selective Search、EdgeBoxes测试时使用2000窗口建议，RPN+ZF测试时采用300窗口建议；<br>结果：RPN+ZF方法获得59.9%的mAP，由于卷积层共享并且只有300个候选窗口，RPN+ZF方法检测速度更快；</p>
 <p>b.第2组实验<br>目的：验证RPN和ZF检测网络共享卷积层的影响；<br>做法：在之前所述4步训练算法进行到第2步后停止；<br>结果：未实现卷积层共享的RPN+ZF的方法获得58.7%的mAP，这由于4步训练算法的第3步使用了微调后检测器特征来微调RPN网络，使得建议窗口质量得到提高；</p>
 <p>c.第3组实验<br>目的：使用不同RPN候选窗数目下，评估其对检测网络mAP的影响；<br>做法：使用Selective Search方法训练检测网络ZF并固定不变【RPN与ZF没有共享卷积层】，测试时采用不同RPN候选窗数目进行；<br>结果：测试时300候选窗RPN获得56.8%的mAP，这是由于训练和测试的区域建议方法不一致造成；使用Top-100窗口建议仍然有55.1%的mAP，说明Top-100结果比较准确；未使用非极大值抑制的6000个区域建议全部使用进行检测获得55.2%的mAP，说明非极大值抑制并未损坏精度，反而可能减少了误报；</p>
@@ -1051,37 +857,14 @@
 <li><p>召回率分析。所谓召回率即区域建议网络找出的为真的窗口与Ground Truth的比值【IoU大于阈值即为真】，文中实验表明Selective Search、EdgeBoxes方法从Top-2000、Top-1000到Top-300的召回率下降明显，区域建议越少下降越明显，而RPN网络召回率下降很少，说明RPN网络Top-300区域建议已经同Ground Truth相差无己，目的性更明确。</p>
 </li>
 <li><p>MS COCO实验【使用VGG-16网络】</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>数目</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>目标类别</td>
-<td>80</td>
-</tr>
-<tr>
-<td>Microsoft COCO训练集</td>
-<td>80k</td>
-</tr>
-<tr>
-<td>Microsoft COCO验证集</td>
-<td>40k</td>
-</tr>
-<tr>
-<td>Microsoft COCO测试集</td>
-<td>20k</td>
-</tr>
-</tbody></table>
+<p>| 属性                 | 数目 |<br>| —————————— | —— |<br>| 目标类别             | 80   |<br>| Microsoft COCO训练集 | 80k  |<br>| Microsoft COCO验证集 | 40k  |<br>| Microsoft COCO测试集 | 20k  |</p>
 <p>采用8-GPU并行训练，则RPN有效mini-batch 为8张图，Fast R-CNN有效mini-batch为16张图；<br>RPN和Fast R-CNN以0.003【由0.001改为0.003，由于有效mini-batch被改变了】的学习率迭代240k次，以0.0003的学习率迭代80k次；<br>对于anchors，在三种尺度三种长宽比基础上增加了64^2的尺度，这是为了处理Microsoft COCO数据集上的小目标【新数据集上不直接套用这一点值得学习】；<br>增加定义负样本IoU，重叠阈值由[0.1，0.5) 到[0，0.5)，这能提升COOC数据集上mAP；<br>使用COCO训练集训练，COCO测试集上获得42.1%的mAP @0.5 和21.5%的mAP @[.5，.95]。</p>
 <p>6.与VGG-16相比，利用ResNet-101网络，在COCO验证集上mAP从41.5%/21.2%(@0.5/@[.5，.95])变化到48.4%/27.2%，归功于RPN网络可以从更好的特征提取网络中学到更好的区域建议。</p>
 <p>7.由于Microsoft COCO数据集种类包含PASCAL VOC数据集种类，文中在Microsoft COCO数据集上训练，在PASCAL VOC数据集上测试，验证大数据量下训练是否有助于提高mAP?<br>采用VGG-16模型，当仅仅利用Microsoft COCO数据集训练时，PASCAL VOC 2007测试集上mAP达到76.1%【泛化能力强，未过拟合】；当利用Microsoft COCO数据集训练的模型初始化，PASCAL VOC 2007+2012训练集进行微调，PASCAL VOC 2007测试集上mAP达到78.8%，此时每一个单体类别的AP较其它样本训练的都达到最高，而每张图测试时间仍然约为200ms。</p>
 </li>
 </ol>
 <p>​          </p>
-<p>​     ——</p>
+<p>​     ———</p>
 <p>​          </p>
 <p>​           </p>
 <p>​          </p>
@@ -1108,10 +891,6 @@
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/07/14/blogtest/" rel="next" title="blogtest">
-                <i class="fa fa-chevron-left"></i> blogtest
-              </a>
             
           </div>
 
@@ -1198,21 +977,12 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
 
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">categories</span>
-                
-              </div>
             
 
             
@@ -1220,7 +990,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
