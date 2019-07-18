@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-cn">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="我看的论文,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读） 论文摘要 本文主要工作是将Knowledge Distillation和Hint Learning技术用在了目标检测模型Faster-RCNN上，提出了weighted cross-entropy来解决类别不平衡问题，使用">
+<meta name="keywords" content="我看的论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型压缩之蒸馏论文总结">
+<meta property="og:url" content="http://yoursite.com/2019/07/15/模型压缩之蒸馏论文总结/index.html">
+<meta property="og:site_name" content="Young">
+<meta property="og:description" content="1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读） 论文摘要 本文主要工作是将Knowledge Distillation和Hint Learning技术用在了目标检测模型Faster-RCNN上，提出了weighted cross-entropy来解决类别不平衡问题，使用">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g51hrfjvvaj312y0eoq7c.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g51i305natj31cu0cqjv1.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/006tNc79ly1g51k7g3xa9j313o0l60tr.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g53ren7gzuj31cm0lgdh1.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/006tNc79ly1g51mqkr1wzj30yo0kiaek.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g51mrmkldaj30nc0fkwhj.jpg">
+<meta property="og:image" content="http://yoursite.com/Desktop/屏幕快照%202019-07-16%20下午1.52.01.png">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g53yo475yaj30sc0ccq51.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g53yqax3mlj30u20n2tci.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g53ytkx7q6j30te0isgp2.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzm5xpwj30u00c0tam.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzxrpbej30sm0gk76z.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g540ls258aj31820tsgrz.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g5417b20v3j31180scn42.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g541jdkwhrj30v70u07bl.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g541lu1m7dj310c0e076z.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g541o5xe3zj31040cu76i.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g543cgs196j30to0si44j.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g5449r87amj31mo0q6wh0.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g544fo2zu5j31iq0u0qay.jpg">
+<meta property="og:updated_time" content="2019-07-18T11:11:48.985Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模型压缩之蒸馏论文总结">
+<meta name="twitter:description" content="1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读） 论文摘要 本文主要工作是将Knowledge Distillation和Hint Learning技术用在了目标检测模型Faster-RCNN上，提出了weighted cross-entropy来解决类别不平衡问题，使用">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g51hrfjvvaj312y0eoq7c.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/15/模型压缩之蒸馏论文总结/">
+
+
+
+
+
+  <title>模型压缩之蒸馏论文总结 | Young</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Young</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/模型压缩之蒸馏论文总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">模型压缩之蒸馏论文总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-15T18:39:43+08:00">
+                2019-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-2017-NIPS-Learning-Efficient-Object-Detection-Models-with-Knowledge-Distillation（博客解读）"><a href="#1-2017-NIPS-Learning-Efficient-Object-Detection-Models-with-Knowledge-Distillation（博客解读）" class="headerlink" title="1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读）"></a>1.<a href="http://papers.nips.cc/paper/6676-learning-efficient-object-detection-models-with-knowledge-distillation.pdf" target="_blank" rel="noopener">2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation</a>（<a href="https://blog.csdn.net/nature553863/article/details/82463249" target="_blank" rel="noopener">博客解读</a>）</h3><ul>
+<li><p><strong>论文摘要</strong></p>
+<p>本文主要工作是将Knowledge Distillation和Hint Learning技术用在了目标检测模型Faster-RCNN上，提出了weighted cross-entropy来解决类别不平衡问题，使用teacher bounded loss解决bounding box 的回归问题，使用hint learning来学习教师网络的层间特征。</p>
+</li>
+<li><p><strong>数据集</strong></p>
+<p>PASCAL, KITTI, ILSVRC, MS-COCO</p>
+</li>
+<li><p><strong>方法</strong></p>
+<p>学生网络的整体目标函数：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} L_{R C N} &=\frac{1}{N} \sum_{i} L_{c l s}^{R C N}+\lambda \frac{1}{N} \sum_{j} L_{r e g}^{R C N} 
+\\\\ L_{R P N} &=\frac{1}{M} \sum_{i} L_{c l s}^{R P N}+\lambda \frac{1}{M} \sum_{j} L_{r e g}^{R P N} 
+\\\\ L &=L_{R P N}+L_{R C N}+\gamma L_{H i n t} \end{aligned}</script><p>$L_{R C N},L_{RPN},L_{Hint}$分别代表RCN网络，RPN网络和Hint-based损失函数。</p>
+<ol>
+<li><p>对于分类的知识蒸馏（with Imabalanced Classes）</p>
+<script type="math/tex; mode=display">
+L_{c l s}=\mu L_{h a r d}\left(P_{s}, y\right)+(1-\mu) L_{s o f t}\left(P_{s}, P_{t}\right)</script><script type="math/tex; mode=display">
+L_{s o f t}\left(P_{s}, P_{t}\right)=-\sum w_{c} P_{t} \log P_{s}</script><p>其中$P_t=softmax(\frac{Z_t}{T})$ 表示教师网络的输出，T是一个温度参数，这里通常设为1.$P_{s}=\operatorname{softmax}\left(\frac{Z_{s}}{T}\right)$ 表示学生网络的输出。$L_{cls}$为groundtrues类别标签.这里的损失函数都采用的交叉熵，为了解决目标检测任务中类别不平衡的问题，引入了加权交叉熵，对背景类采用较大的权重，因为背景类在实验过程中，分错的概率较小。</p>
+</li>
+<li><p>对于回归知识的蒸馏（with Teacher Bounds）</p>
+<script type="math/tex; mode=display">
+L_{b}\left(R_{s}, R_{t}, y\right) =\left\{\begin{array}{ll}{\left\|R_{s}-y\right\|_{2}^{2},}   {\text { if }\left\|R_{s}-y\right\|_{2}^{2}+m>\left\|R_{t}-y\right\|_{2}^{2}} \\ {0,}  {\text { otherwise }}\end{array}\right.</script><script type="math/tex; mode=display">
+L_{\text {reg}} =L_{s L 1}\left(R_{s}, y_{\text {reg}}\right)+\nu L_{b}\left(R_{s}, R_{t}, y_{\text {reg}}\right)</script><p>对于boundingbox的回归不同于对离散类别信息的蒸馏，它本来就是连续的。而教师网络提供的回归方向有可能和groundtruth的方向是相反的，所以这里将教师的信息，作为学生网络回归的上边界，当超过一定距离时，才对学生网络提供监督。</p>
+</li>
+<li><p>Hint Learning with Feature Adaptation</p>
+<p>即让学生网络去学习教师网络中间层特征图的分布，可以通过计算$L_1和L_2$loss实现。</p>
+<script type="math/tex; mode=display">
+L_{H i n t}(V, Z)=\|V-Z\|_{2}^{2}</script><script type="math/tex; mode=display">
+L_{H i n t}(V, Z)=\|V-Z\|_{1}</script></li>
+</ol>
+</li>
+<li><p><strong>实验结果</strong></p>
+</li>
+</ul>
+<p>  <img src="http://ww2.sinaimg.cn/large/006tNc79ly1g51hrfjvvaj312y0eoq7c.jpg" alt="屏幕快照 2019-07-16 上午10.54.04"></p>
+<p>  下图是使用高分辨率图片训练教师网络，低分辨率图片训练学生网络的结果。</p>
+<p>  <img src="http://ww2.sinaimg.cn/large/006tNc79ly1g51i305natj31cu0cqjv1.jpg" alt="屏幕快照 2019-07-16 上午11.05.15"></p>
+<hr>
+<h3 id="2-2017-arXiv-Like-What-You-Like-Knowledge-Distill-via-Neuron-Selectivity-Transfer-图森"><a href="#2-2017-arXiv-Like-What-You-Like-Knowledge-Distill-via-Neuron-Selectivity-Transfer-图森" class="headerlink" title="2.2017-arXiv-Like What You Like: Knowledge Distill via Neuron Selectivity Transfer(图森)"></a>2.<a href="https://arxiv.org/pdf/1707.01219.pdf" target="_blank" rel="noopener">2017-arXiv-Like What You Like: Knowledge Distill via Neuron Selectivity Transfer</a>(图森)</h3><ul>
+<li><p><strong>论文摘要</strong></p>
+<p>该论文主要引入了最大平均差异 Maximum Mean Discrepancy(MMD),来计算教师网络和学生网络的特征分布差异，并与原始损失函数结合，提高学生网络的性能。(定义新的知识，神经元选择性NST，或者激活值模式，反映了神经元的特征选择。)</p>
+</li>
+<li><p><strong>数据集</strong></p>
+<p>CIFAR-10,CIFAR-100, ImageNet LSVRC2012.</p>
+</li>
+<li><p><strong>方法</strong></p>
+</li>
+</ul>
+<p>  Neuron Selectivity Transfer (NST)</p>
+<p>  为什么不直接匹配feature maps?因为它忽视了空间中样本的密度。</p>
+<p>  NST Loss的定义为：</p>
+<script type="math/tex; mode=display">
+  \mathcal{L}_{\mathrm{NST}}\left(\mathbf{W}_{S}\right)=\mathcal{H}\left(\boldsymbol{y}_{\text { true }}, \boldsymbol{p}_{S}\right)+\frac{\lambda}{2} \mathcal{L}_{\mathrm{MMD}^{2}}\left(\mathbf{F}_{T}, \mathbf{F}_{S}\right)</script><p>  $\mathcal{H}$ 表示标准交叉熵损失函数。</p>
+<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g51k7g3xa9j313o0l60tr.jpg" style="zoom:50%"></p>
+<p>​       其中k代表核函数，本文测试了3中核函数：</p>
+<p>​       线性核：$k(\boldsymbol{x}, \boldsymbol{y})=\boldsymbol{x}^{\top} \boldsymbol{y}$，线性核可以反映神经元对哪些特征反映强烈，即注意力。</p>
+<p>​      多项式核：$k(\boldsymbol{x}, \boldsymbol{y})=\left(\boldsymbol{x}^{\top} \boldsymbol{y}+c\right)^{d}$ 多项式核反映了区域相似性。</p>
+<p>​      高斯核：$k(\boldsymbol{x}, \boldsymbol{y})=\exp \left(-\frac{|\boldsymbol{x}-\boldsymbol{y}|_{2}^{2}}{2 \sigma^{2}}\right)$</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53ren7gzuj31cm0lgdh1.jpg" style="zoom:50%"></p>
+<ul>
+<li><p><strong>实验结果</strong></p>
+<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g51mqkr1wzj30yo0kiaek.jpg" style="zoom: 50%"></p>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g51mrmkldaj30nc0fkwhj.jpg" style="zoom:50%"></p>
+<p><img src="../../../../../Desktop/屏幕快照 2019-07-16 下午1.52.01.png" alt="屏幕快照 2019-07-16 下午1.52.01"></p>
+</li>
+</ul>
+<h3 id="3-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer"><a href="#3-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer" class="headerlink" title="3.2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer"></a>3.2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer</h3><p>垃圾论文 毁我青春</p>
+<h3 id="4-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection"><a href="#4-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection" class="headerlink" title="4.2017-商汤-Mimicking Very Efficient Network for Object Detection"></a>4.<a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=29f43e4a7e341d555f0f95566bde9cd4&amp;site=xueshu_se" target="_blank" rel="noopener">2017-商汤-Mimicking Very Efficient Network for Object Detection</a></h3><ul>
+<li><p>论文摘要：</p>
+<p>论文针对目标检测模型，论文提出了一种针对特征图Mimicking(蒸馏)的方法，主要针对localregion进行蒸馏，而不是全局特征。小型化的Inception取得了2.5倍的压缩，并取得和原始模型相当的准确度。在Caltech数据集上处理1000x1500的输入可以达到80FPS。</p>
+</li>
+<li><p>数据集：Caltech, Pascal VOC</p>
+</li>
+<li><p>基础模型：Inception, ResNet，Faser-rcnn, R-FCN.</p>
+</li>
+<li><p>方法：</p>
+<ol>
+<li><p>目标检测产生的特征图往往维度比较高，难以直接对两个feature map进行回归。而且对于目标检测特征图中，只有object区域的相应比较高，背景区域都是噪声。所以在特征图中，只有目标附近区域（local regions）才包含较多的有用信息。只针对RPN网络。</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \mathcal{L}(W) &=\lambda_{1} \mathcal{L}_{m}(W)+\mathcal{L}_{g t}(W) \\ \mathcal{L}_{m}(W) &=\frac{1}{2 N} \sum_{i}\left\|u^{(i)}-r\left(v^{(i)}\right)\right\|_{2}^{2} \\ \mathcal{L}_{g t}(W) &=\mathcal{L}_{c l s}(W)+\lambda_{2} \mathcal{L}_{r e g}(W) \end{aligned}</script><p>$\mathcal{L}(W)$ 表示特征图模仿的$L_2$ 损失，N表示region proposal的数量，$u^{i}$表示教师网络产生的第i个proposal经过spp处理后得到的特征，$v{i}$同理，r是一个回归函数用来统一两者的维度。</p>
+<p>这样还存在问题，一是特征图的的值可能较大，需要小心平衡，groundtruth损失和mimic损失，即$\lambda$ 参数；二是spp可能会破坏特征。所以进行了归一化改进，和去除spp.</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{m}(W)=\frac{1}{2 N} \sum_{i} \frac{1}{m_{i}}\left\|u^{(i)}-r\left(v^{(i)}\right)\right\|_{2}^{2}</script></li>
+</ol>
+</li>
+</ul>
+<ol>
+<li><p>Two-stage Mimic: 为了提高准确率除了对RPN网络进行Mimic,对detecter网络也进行Mimic.</p>
+</li>
+<li><p>Mimic over Scales:使用大图片去训练教师网络，使用小图片训练学生网络</p>
+</li>
+</ol>
+<ul>
+<li><p>实验结果</p>
+<p>Caltech,评价指标：missrate on FPPI</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53yo475yaj30sc0ccq51.jpg" style="zoom:50%"></p>
+</li>
+</ul>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g53yqax3mlj30u20n2tci.jpg" style="zoom:50%"></p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53ytkx7q6j30te0isgp2.jpg" style="zoom:50%"></p>
+<p>Pascal VOC 评价指标：mAP</p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzm5xpwj30u00c0tam.jpg" style="zoom:50%"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzxrpbej30sm0gk76z.jpg" style="zoom:50%"></p>
+<ul>
+<li>复现难度：m</li>
+</ul>
+<h3 id="5-2018-商汤-CVPR-2019-Quantization-Mimic-Towards-Very-Tiny-CNN-for-Object-Detection"><a href="#5-2018-商汤-CVPR-2019-Quantization-Mimic-Towards-Very-Tiny-CNN-for-Object-Detection" class="headerlink" title="5.2018-商汤-CVPR-2019-Quantization Mimic: Towards Very Tiny CNN for Object Detection"></a>5.<a href="https://arxiv.org/pdf/1805.02152.pdf" target="_blank" rel="noopener">2018-商汤-CVPR-2019-Quantization Mimic: Towards Very Tiny CNN for Object Detection</a></h3><ul>
+<li><p>论文摘要：本文主要目标是训练VeryTiny网络，（VGG，1/32）.提出了Quantization Mimic方法来蒸馏网络，首先量化教师网络，再将学生网络使用蒸馏方法Mimic教师网络。量化教师网络可以降低学生网络的参数搜索空间，别人使用量化直接压缩网络，作者使用量化来辅助蒸馏。</p>
+</li>
+<li><p>数据集：WIDER FACE， PascalVOC</p>
+</li>
+<li><p>基础网络：VGG with R-FCN，ResNet with Faster-R-CNN.</p>
+</li>
+<li><p>方法：</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g540ls258aj31820tsgrz.jpg" alt="image-20190718151724599"></p>
+<ol>
+<li><p>量化：对教师网络的最后一层特征进行量化，使用Uniform量化，因为他更适用于当前模型。</p>
+<p>量化函数$Q$为：</p>
+<script type="math/tex; mode=display">
+Q(f)=\beta \quad \text { if } \frac{\alpha+\beta}{2}<f \leq \frac{\gamma+\beta}{2}</script><p>其中，$\alpha,\beta, \gamma$ 是在量化字典中相邻的元素：</p>
+<script type="math/tex; mode=display">
+D=\{0, s, 2 s, 3 s . .\}</script><p>s是量化步长。</p>
+<p>需要说明的是，在训练的时候类似于BNN，使用的是全精度梯度。</p>
+</li>
+<li><p>Mimic:采用和上一篇论文一样的方法</p>
+<script type="math/tex; mode=display">
+\begin{array}{c}{L=L_{c l s}^{r}+L_{r e g}^{r}+L_{c l s}^{d}+L_{r e g}^{d}+\lambda L_{m}} \\ {L_{m}=\frac{1}{2 N} \sum_{i}\left\|f_{t}^{i}-r\left(f_{s}^{i}\right)\right\|_{2}^{2}}\end{array}</script></li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>Quantization Mimic:<script type="math/tex; mode=display">
+L_{m}=\frac{1}{2 N} \sum_{i}\left\|Q\left(f_{t}^{i}\right)-Q\left(r\left(f_{s}^{i}\right)\right)\right\|_{2}^{2}</script><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g5417b20v3j31180scn42.jpg" alt="image-20190718153806956"></li>
+</ol>
+<ul>
+<li><p><a href="https://blog.csdn.net/bryant_meng/article/details/83056203" target="_blank" rel="noopener">CSDN解读</a></p>
+</li>
+<li><p>实验结果：</p>
+<ol>
+<li><p>WIDER FACE Dataset</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g541jdkwhrj30v70u07bl.jpg" alt="image-20190718154943309"></p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g541lu1m7dj310c0e076z.jpg" style="zoom:50%"></p>
+<ol>
+<li><p>Pascal VOC</p>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g541o5xe3zj31040cu76i.jpg" alt="image-20190718155419344"></p>
+<p>效果有点儿差哦,有一定的参考价值。</p>
+</li>
+</ol>
+<ul>
+<li>复现难度：h </li>
+</ul>
+<h3 id="6-2019-华为诺亚方舟-Distilling-Object-Detectors-with-Fine-grained-Feature-Imitation"><a href="#6-2019-华为诺亚方舟-Distilling-Object-Detectors-with-Fine-grained-Feature-Imitation" class="headerlink" title="6.2019-华为诺亚方舟-Distilling Object Detectors with Fine-grained Feature Imitation"></a>6.2019-华为诺亚方舟-<a href="https://arxiv.org/pdf/1906.03609.pdf" target="_blank" rel="noopener">Distilling Object Detectors with Fine-grained Feature Imitation</a></h3><ul>
+<li><p>论文摘要</p>
+<p>本文的思想和商汤的第一篇论文很相似，认为在目标检测模型的模型蒸馏中不能单纯的mimic教师网络的整个特征图，这样会引入很多噪声，目标附近的区域才是比较重要的，但是本文不是去mimic region proposal,而是事先根据gt和anchor计算出目标临近的区域。然后让学生去mimic这些区域的特征。</p>
+</li>
+<li><p>数据集：KITTI, Pascal VOC, COCO.</p>
+</li>
+<li><p>模型：toy-detector, faster R-CNN.</p>
+</li>
+<li><p>方法：</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g543cgs196j30to0si44j.jpg" style="zoom:50%"></p>
+<ol>
+<li><p>如图所示，首先计算特征图上每个点所有anchors和gtbox的IOU，然后计算出最大的IOU值，$M = max(m)$ .然后乘一个阈值因子$\psi$ ,然后得到一个阈值$F=\psi * M$ .用这个阈值去过滤IOU map,得到一个WXH的map,最后结合所有的gtbox得到一个mask I.</p>
+</li>
+<li><p>$N_p$是mask上正值得个数，$f_{adap}$ 是为了对齐两个网络的特征图。</p>
+</li>
+<li><script type="math/tex; mode=display">
+\begin{aligned} L_{i m i t a t i o n} &=\frac{1}{2 N_{p}} \sum_{i=1}^{W} \sum_{j=1}^{H} \sum_{c=1}^{C} I_{i j}\left(f_{\mathrm{adap}}(s)_{i j c}-t_{i j c}\right)^{2} \\ \text { where } N_{p} &=\sum_{i=1}^{W} \sum_{j=1}^{H} I_{i j} \end{aligned}</script><p>总的损失函数为：</p>
+</li>
+</ol>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+L=L_{g t}+\lambda L_{i m i t a t i o n}</script><ul>
+<li><p>实验结果：</p>
+<ol>
+<li><p>toy-detector</p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g5449r87amj31mo0q6wh0.jpg"></p>
+</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li><p>Faster R-CNN</p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g544fo2zu5j31iq0u0qay.jpg" alt="image-20190718172955271"></p>
+</li>
+</ol>
+<ul>
+<li>复现难度：<a href="https://github.com/twangnh/Distilling-Object-Detectors" target="_blank" rel="noopener">开源</a></li>
+</ul>
+<h2 id="人脸识别"><a href="#人脸识别" class="headerlink" title="人脸识别"></a>人脸识别</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/我看的论文/" rel="tag"># 我看的论文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/14/目标检测算法/" rel="next" title="目标检测算法">
+                <i class="fa fa-chevron-left"></i> 目标检测算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/18/test/" rel="prev" title="test">
+                test <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">xy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2017-NIPS-Learning-Efficient-Object-Detection-Models-with-Knowledge-Distillation（博客解读）"><span class="nav-number">1.</span> <span class="nav-text">1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2017-arXiv-Like-What-You-Like-Knowledge-Distill-via-Neuron-Selectivity-Transfer-图森"><span class="nav-number">2.</span> <span class="nav-text">2.2017-arXiv-Like What You Like: Knowledge Distill via Neuron Selectivity Transfer(图森)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer"><span class="nav-number">3.</span> <span class="nav-text">3.2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection"><span class="nav-number">4.</span> <span class="nav-text">4.2017-商汤-Mimicking Very Efficient Network for Object Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2018-商汤-CVPR-2019-Quantization-Mimic-Towards-Very-Tiny-CNN-for-Object-Detection"><span class="nav-number">5.</span> <span class="nav-text">5.2018-商汤-CVPR-2019-Quantization Mimic: Towards Very Tiny CNN for Object Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2019-华为诺亚方舟-Distilling-Object-Detectors-with-Fine-grained-Feature-Imitation"><span class="nav-number">6.</span> <span class="nav-text">6.2019-华为诺亚方舟-Distilling Object Detectors with Fine-grained Feature Imitation</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#人脸识别"><span class="nav-number"></span> <span class="nav-text">人脸识别</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
