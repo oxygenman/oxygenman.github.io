@@ -107,7 +107,11 @@
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g543cgs196j30to0si44j.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g5449r87amj31mo0q6wh0.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g544fo2zu5j31iq0u0qay.jpg">
-<meta property="og:updated_time" content="2019-07-18T12:30:37.358Z">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g54zjxb288j31800d2dhw.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g54zkhl1dhj30nc0pmq64.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g555d2woo1j30j605474v.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g555gehz77j30iu09m0u1.jpg">
+<meta property="og:updated_time" content="2019-07-19T06:52:30.138Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型压缩之蒸馏论文总结">
 <meta name="twitter:description" content="1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读） 论文摘要 本文主要工作是将Knowledge Distillation和Hint Learning技术用在了目标检测模型Faster-RCNN上，提出了weighted cross-entropy来解决类别不平衡问题，使用">
@@ -515,7 +519,90 @@ L=L_{g t}+\lambda L_{i m i t a t i o n}</script><ul>
 <ul>
 <li>复现难度：<a href="https://github.com/twangnh/Distilling-Object-Detectors" target="_blank" rel="noopener">开源</a></li>
 </ul>
-<h2 id="人脸识别"><a href="#人脸识别" class="headerlink" title="人脸识别"></a>人脸识别</h2>
+<h2 id="人脸识别"><a href="#人脸识别" class="headerlink" title="人脸识别"></a>人脸识别</h2><h3 id="1-2016-AAAI-汤晓鸥组-Face-Model-Compression-by-Distilling-Knowledge-from-Neurons"><a href="#1-2016-AAAI-汤晓鸥组-Face-Model-Compression-by-Distilling-Knowledge-from-Neurons" class="headerlink" title="1.2016-AAAI-汤晓鸥组-Face Model Compression by Distilling Knowledge from Neurons"></a>1.<a href="http://personal.ie.cuhk.edu.hk/~pluo/pdf/aaai16-face-model-compression.pdf" target="_blank" rel="noopener">2016-AAAI-汤晓鸥组-Face Model Compression by Distilling Knowledge from Neurons</a></h3><ul>
+<li><p><strong>论文摘要：</strong> </p>
+<p>不同于Hinton使用“soft target”作为需要学习的知识，本文使用高层的神经元作为学习的知识，它含有和输出概率同等的信息，但是更加的compact(坚实，紧凑)，而且使用“soft target”的话不容易拟合。利用学习到的人脸的基本特点(领域知识)，提出了一个神经元选择方法选择出和人脸识别更相关的神经元。使用选择出来的神经元作为监督信息来模仿DeepID2+和DeepID3。并在LFW上取得了比教师网络的更高的精度。当使用一个DeepID2+的集成网络时（6个网络），学生网络可以取得51.6倍的压缩比，和90倍的推理速度提升。AUC为98.43。</p>
+</li>
+<li><p><strong>数据集：</strong> training: WDRef, CelebFaces+; testing: LFW</p>
+</li>
+<li><p><strong>基础网络：</strong> DeepID2+, DeepID3</p>
+</li>
+<li><p><strong>方法：</strong> </p>
+<ol>
+<li><p>神经元选择方法基于三个original observations(domain knowledge):</p>
+<ul>
+<li>深度学习学习到的人脸特征是人脸属性的分布特征（distributed representation over face attributes),包括身份有关 属性(IA)，比如性别，种族。和身份无关属性(NA)，比如表情，光照，照片质量等。在训练过程中尽管没有提供这些属性信息，但是可以发现某个神经元和某些属性是有联系的。</li>
+<li>这些分布式特征既不是不变的，也不是完全分离的（neither invariant nor completely factorized）.应该将与NA有关的神经元移除。</li>
+<li>有些神经元一直处于抑制状态，是噪音。</li>
+</ul>
+<p>一个平均场算法（mean field algorithm),可以让我们选出与IA有关的神经元，但是相互关系较少的神经元。</p>
+</li>
+<li><p>使用Neuron Selection来训练学生网络</p>
+<script type="math/tex; mode=display">
+L(\mathcal{D})=\frac{1}{2 M} \sum_{i=1}^{M}\left\|\mathbf{f}_{i}-g\left(\mathbf{I}_{i} ; \mathbf{W}\right)\right\|_{2}^{2}</script><p>上式为训练学生网络的损失函数，其中$f_i$为地i个图像通过神经元选择方法筛选出来的特征。</p>
+</li>
+<li><p>神经元如何选择？</p>
+<p>将神经元之间的关系看成一个全连接图问题，比如N个Neuron $\mathbf{y}=\left\{y_{i}\right\}_{i=1}^{N}$,$y_{i} \in\{0,1\}$ .</p>
+<p>通过最小化下面的能量函数来实现神经元的选择：</p>
+<script type="math/tex; mode=display">
+E(\mathbf{y})=\sum_{i=1}^{N} \Phi\left(y_{i}\right)+\lambda \sum_{i=1}^{N} \sum_{j=1, j \neq i}^{N} \Psi\left(y_{i}, y_{j}\right)</script><p>其中$\Phi(y_{i})$ 和 $\Psi(y_i,y_j)$ 分别 表示选中神经元i的损失，和同时选中i，j的损失。</p>
+<p>$\Phi(x_i) = f(x_i)$ ,$f(.)$ 是一个惩罚函数，$x_i$ 是一个向量，用来表示神经元i的特征区分能力。</p>
+<p>$\Psi(.)$ 也是一个惩罚函数，用来惩罚相关性较大的神经元。</p>
+<script type="math/tex; mode=display">
+\Psi\left(y_{i}, y_{j}\right)=\exp \left\{-\frac{1}{2}\left\|\mathbf{x}_{i}-\mathbf{x}_{j}\right\|_{2}^{2}\right\}</script><p>这个能量函数可以用平均场算法求解。</p>
+</li>
+<li><p>$x_i$ 怎么求得？</p>
+<p>$x_i$的每一维表示第i个神经元，对第j个特征的分类准确率：</p>
+<script type="math/tex; mode=display">
+\text { i.e. } \forall \mathbf{x}_{i} \in \mathbb{R}^{1 \times 40} \text { and } \mathbf{x}_{i(j)}=\frac{T P_{j}+T N_{j}}{2}</script><p>其中，$TP_j和TN_j$ 表示真正率和真假率。至于这个怎么统计的，文中没有提，我觉得因该是根据某个样本的属性，看这个神经元对这个样本有没有反应来统计。</p>
+<p>最后，得到$f(.)$的最终表达式：</p>
+<script type="math/tex; mode=display">
+f\left(\mathbf{x}_{i}\right)=\frac{\max \left\{\mathbf{x}_{i(j)}\right\} \forall j \in \mathrm{NA}-\operatorname{avg}\left\{\mathbf{x}_{i(j)}\right\} \forall j \in \mathrm{NA}}{\max \left\{\mathbf{x}_{i(j)}\right\} \forall j \in \mathrm{IA}-\operatorname{avg}\left\{\mathbf{x}_{i(j)}\right\} \forall j \in \mathrm{IA}}</script><p>如果一个神经元对NA属性的选择性大于对IA的选择性，他就会受到惩罚。</p>
+</li>
+</ol>
+</li>
+<li><p>实验结果</p>
+<p>在LFW数据集上进行人脸验证，人脸验证通过计算欧式距离来实现。评价指标AUC。</p>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g54zjxb288j31800d2dhw.jpg" alt="image-20190719112633318"></p>
+</li>
+</ul>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g54zkhl1dhj30nc0pmq64.jpg" style="zoom:50%"></p>
+<ul>
+<li><p>复现难度：<a href="https://github.com/liuziwei7/mobile-id" target="_blank" rel="noopener">开源</a></p>
+<hr>
+</li>
+</ul>
+<h3 id="2-2019-arXiv-ICML-Triple-Distillation-for-Deep-Face-Recognition"><a href="#2-2019-arXiv-ICML-Triple-Distillation-for-Deep-Face-Recognition" class="headerlink" title="2. 2019-arXiv-ICML-Triple Distillation for Deep Face Recognition"></a>2. <a href="https://arxiv.org/abs/1905.04457?context=cs.CV" target="_blank" rel="noopener">2019-arXiv-ICML-Triple Distillation for Deep Face Recognition</a></h3><ul>
+<li><p><strong>论文摘要：</strong></p>
+<p>本文主要把Triplet loss和蒸馏的思想进行了结合引入了Triplet-distillation.改进了Triplet-loss中，identities之间的固定间距。从训练好教师网络中学习indenties之间的多样性知识。</p>
+</li>
+<li><p><strong>数据集：</strong> LFW，AgeDB, CPLFW</p>
+</li>
+<li><p><strong>网络模型：</strong> ResNet-100, slim version of MobileFaceNet.</p>
+</li>
+<li><p><strong>方法：</strong> </p>
+<p>  原始Triplet loss: </p>
+<script type="math/tex; mode=display">\mathcal{L}=\frac{1}{N} \sum_{i}^{N} \max \left(\mathcal{D}\left(x_{i}^{a}, x_{i}^{p}\right)-\mathcal{D}\left(x_{i}^{a}, x_{i}^{n}\right)+m, 0\right)</script><p> 在原始Triplet loss中，对于所有的identities m是相同的且固定不变的，所有的聚簇都将使用固定的距离粗鲁的分开，它忽视了identities之间微妙的相似性。比如说A和B的相似性大于A和C的相似性，那么理论上{A,B}的m应该小于{B,C}的m.和hinton的思想一样的，这样的相似性是有用的。 <script type="math/tex">\begin{array}{c}{\mathcal{L}=\frac{1}{N} \sum_{i}^{N} \max \left(\mathcal{D}\left(x_{i}^{a}, x_{i}^{p}\right)-\mathcal{D}\left(x_{i}^{a}, x_{i}^{n}\right)+\mathcal{F}(d), 0\right)} \\ {d=\max \left(\mathcal{T}\left(x_{i}^{a}, x_{i}^{n}\right)-\mathcal{T}\left(x_{i}^{a}, x_{i}^{p}\right), 0\right)}\end{array}</script> </p>
+<p>Triplet Distillation:</p>
+<p>先训练一个教师网络，然后教师网络提取identities的特征，计算它们之间的距离。如上所示$\mathcal{D}$代表学生网络计算的距离，$\mathcal{T}$代表教师网络的距离。</p>
+<p>$\mathcal{F}$是一个简单的线性函数: $\mathcal{F}(d)=\frac{m_{\max }-m_{\min }}{d_{\max }} d+m_{\min }$</p>
+<p>通过这种方式m被限制在了$m_{min}$ 和 $m_{max}$ 之间。</p>
+</li>
+<li><p><strong>实验结果：</strong> </p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g555d2woo1j30j605474v.jpg" style="zoom:70%"></p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g555gehz77j30iu09m0u1.jpg" style="zoom:50%"></p>
+</li>
+<li><p>复现难度：将要开源</p>
+</li>
+</ul>
+<h3 id="开源统计："><a href="#开源统计：" class="headerlink" title="开源统计："></a>开源统计：</h3><p><a href="https://github.com/RuiChen96/MaskRCNN-PyTorch" target="_blank" rel="noopener">MaskRcnn with Knowledge Distillation (pytorch)</a> </p>
+<p><a href="https://github.com/HqWei/Distillation-of-Faster-rcnn" target="_blank" rel="noopener">Distillation-of-Faster-rcnn</a></p>
+<p><a href="https://github.com/sseung0703/Knowledge_distillation_methods_wtih_Tensorflow" target="_blank" rel="noopener">各种蒸馏方法总结实验对比</a></p>
+<p><a href="https://github.com/lenscloth/RKD" target="_blank" rel="noopener">Relational knowledge distillation</a></p>
+<p><a href="https://github.com/irfanICMLL/structure_knowledge_distillation" target="_blank" rel="noopener">Structured Knowledge Distillation for Semantic Segmentation</a></p>
+<p><a href="https://github.com/bhheo/AB_distillation" target="_blank" rel="noopener">Knowledge Transfer via Distillation of Activation Boundaries Formed by Hidden Neurons</a></p>
+<p><a href="https://github.com/bhheo/BSS_distillation" target="_blank" rel="noopener">Knowledge Distillation with Adversarial Samples Supporting Decision Boundary (AAAI 2019)</a></p>
+
       
     </div>
     
@@ -676,7 +763,7 @@ L=L_{g t}+\lambda L_{i m i t a t i o n}</script><ul>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2017-NIPS-Learning-Efficient-Object-Detection-Models-with-Knowledge-Distillation（博客解读）"><span class="nav-number">1.</span> <span class="nav-text">1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2017-arXiv-Like-What-You-Like-Knowledge-Distill-via-Neuron-Selectivity-Transfer-图森"><span class="nav-number">2.</span> <span class="nav-text">2.2017-arXiv-Like What You Like: Knowledge Distill via Neuron Selectivity Transfer(图森)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer"><span class="nav-number">3.</span> <span class="nav-text">3.2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection"><span class="nav-number">4.</span> <span class="nav-text">4.2017-商汤-Mimicking Very Efficient Network for Object Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2018-商汤-CVPR-2019-Quantization-Mimic-Towards-Very-Tiny-CNN-for-Object-Detection"><span class="nav-number">5.</span> <span class="nav-text">5.2018-商汤-CVPR-2019-Quantization Mimic: Towards Very Tiny CNN for Object Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2019-华为诺亚方舟-Distilling-Object-Detectors-with-Fine-grained-Feature-Imitation"><span class="nav-number">6.</span> <span class="nav-text">6.2019-华为诺亚方舟-Distilling Object Detectors with Fine-grained Feature Imitation</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#人脸识别"><span class="nav-number"></span> <span class="nav-text">人脸识别</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2017-NIPS-Learning-Efficient-Object-Detection-Models-with-Knowledge-Distillation（博客解读）"><span class="nav-number">1.</span> <span class="nav-text">1.2017-NIPS-Learning Efficient Object Detection Models with Knowledge Distillation（博客解读）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2017-arXiv-Like-What-You-Like-Knowledge-Distill-via-Neuron-Selectivity-Transfer-图森"><span class="nav-number">2.</span> <span class="nav-text">2.2017-arXiv-Like What You Like: Knowledge Distill via Neuron Selectivity Transfer(图森)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer"><span class="nav-number">3.</span> <span class="nav-text">3.2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection"><span class="nav-number">4.</span> <span class="nav-text">4.2017-商汤-Mimicking Very Efficient Network for Object Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2018-商汤-CVPR-2019-Quantization-Mimic-Towards-Very-Tiny-CNN-for-Object-Detection"><span class="nav-number">5.</span> <span class="nav-text">5.2018-商汤-CVPR-2019-Quantization Mimic: Towards Very Tiny CNN for Object Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2019-华为诺亚方舟-Distilling-Object-Detectors-with-Fine-grained-Feature-Imitation"><span class="nav-number">6.</span> <span class="nav-text">6.2019-华为诺亚方舟-Distilling Object Detectors with Fine-grained Feature Imitation</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#人脸识别"><span class="nav-number"></span> <span class="nav-text">人脸识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2016-AAAI-汤晓鸥组-Face-Model-Compression-by-Distilling-Knowledge-from-Neurons"><span class="nav-number">1.</span> <span class="nav-text">1.2016-AAAI-汤晓鸥组-Face Model Compression by Distilling Knowledge from Neurons</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2019-arXiv-ICML-Triple-Distillation-for-Deep-Face-Recognition"><span class="nav-number">2.</span> <span class="nav-text">2. 2019-arXiv-ICML-Triple Distillation for Deep Face Recognition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开源统计："><span class="nav-number">3.</span> <span class="nav-text">开源统计：</span></a></li></ol></li></div>
             
 
           </div>
