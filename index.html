@@ -317,7 +317,7 @@
 </ul>
 <p><a href="https://camo.githubusercontent.com/cfee36c2ed92f4515c856267d1815cb1632312a7/68747470733a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f353532393939372d336566303536356132313565333966382e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/cfee36c2ed92f4515c856267d1815cb1632312a7/68747470733a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f353532393939372d336566303536356132313565333966382e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f" alt="img"></a></p>
 <p>后续待补。。。。。。。。。。。。。。。。</p>
-<h3 id="2-2015-ICLR-FitNets-Hints-for-Thin-Deep-Nets"><a href="#2-2015-ICLR-FitNets-Hints-for-Thin-Deep-Nets" class="headerlink" title="2. 2015-ICLR-FitNets:Hints for Thin Deep Nets"></a>2. 2015-ICLR-FitNets:Hints for Thin Deep Nets</h3><ul>
+<h3 id="2-2015-ICLR-FitNets-Hints-for-Thin-Deep-Nets"><a href="#2-2015-ICLR-FitNets-Hints-for-Thin-Deep-Nets" class="headerlink" title="2. 2015-ICLR-FitNets:Hints for Thin Deep Nets"></a>2. 2015-ICLR-<a href="https://arxiv.org/pdf/1412.6550.pdf" target="_blank" rel="noopener">FitNets:Hints for Thin Deep Nets</a></h3><ul>
 <li><p><strong>论文摘要：</strong></p>
 <p>论文认为，deep是DNN的主要的功效的来源，于是这篇文章的主要目的是去mimic一个更深但是更小的网络而且准确率比原始网络还要好。那么既然网络很深直接训练会困难，那就通过在中间层加入loss的方法，将网络分成两块来训练。中间的loss则通过teacher的feature map得到。</p>
 </li>
@@ -457,11 +457,16 @@ G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \time
 <li>Distance wise distillation loss<script type="math/tex; mode=display">
 \psi_{\mathrm{D}}\left(t_{i}, t_{j}\right)=\frac{1}{\mu}\left\|t_{i}-t_{j}\right\|_{2}</script></li>
 </ul>
-</li>
+<script type="math/tex; mode=display">
+  \mathcal{L}_{\mathrm{RKD}-\mathrm{D}}=\sum_{\left(x_{i}, x_{j}\right) \in \mathcal{X}^{2}} l_{\delta}\left(\psi_{\mathrm{D}}\left(t_{i}, t_{j}\right), \psi_{\mathrm{D}}\left(s_{i}, s_{j}\right)\right)</script><p>  Huber Loss</p>
+<script type="math/tex; mode=display">
+  l_{\delta}(x, y)=\left\{\begin{array}{ll}{\frac{1}{2}(x-y)^{2}} & {\text { for }|x-y| \leq 1} \\ {|x-y|-\frac{1}{2},} & {\text { otherwise }}\end{array}\right.</script></li>
 </ul>
 <ul>
-<li>Angle-wise distillation loss<script type="math/tex; mode=display">
-\begin{array}{l}{\psi_{\mathrm{A}}\left(t_{i}, t_{j}, t_{k}\right)=\cos \angle t_{i} t_{j} t_{k}=\left\langle\mathbf{e}^{i j}, \mathbf{e}^{k j}\right\rangle} \\ {\text { where } \quad \mathbf{e}^{i j}=\frac{t_{i}-t_{j}}{\left\|t_{i}-t_{j}\right\|_{2}}, \mathbf{e}^{k j}=\frac{t_{k}-t_{j}}{\left\|t_{k}-t_{j}\right\|_{2}}}\end{array}</script></li>
+<li><p>Angle-wise distillation loss</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}{\psi_{\mathrm{A}}\left(t_{i}, t_{j}, t_{k}\right)=\cos \angle t_{i} t_{j} t_{k}=\left\langle\mathbf{e}^{i j}, \mathbf{e}^{k j}\right\rangle} \\ {\text { where } \quad \mathbf{e}^{i j}=\frac{t_{i}-t_{j}}{\left\|t_{i}-t_{j}\right\|_{2}}, \mathbf{e}^{k j}=\frac{t_{k}-t_{j}}{\left\|t_{k}-t_{j}\right\|_{2}}}\end{array}</script><script type="math/tex; mode=display">
+\mathcal{L}_{\mathrm{RKD}-\mathrm{A}}=\sum_{\left(x_{i}, x_{j}, x_{k}\right) \in \mathcal{X}^{3}} l_{\delta}\left(\psi_{\mathrm{A}}\left(t_{i}, t_{j}, t_{k}\right), \psi_{\mathrm{A}}\left(s_{i}, s_{j}, s_{k}\right)\right)</script></li>
 </ul>
 <ul>
 <li><p>实验结果</p>
@@ -522,7 +527,7 @@ L_{H i n t}(V, Z)=\|V-Z\|_{1}</script></li>
 <li><p>目标检测产生的特征图往往维度比较高，难以直接对两个feature map进行回归。而且对于目标检测特征图中，只有object区域的相应比较高，背景区域都是噪声。所以在特征图中，只有目标附近区域（local regions）才包含较多的有用信息。只针对RPN网络。</p>
 <script type="math/tex; mode=display">
 \begin{aligned} \mathcal{L}(W) &=\lambda_{1} \mathcal{L}_{m}(W)+\mathcal{L}_{g t}(W) \\ \mathcal{L}_{m}(W) &=\frac{1}{2 N} \sum_{i}\left\|u^{(i)}-r\left(v^{(i)}\right)\right\|_{2}^{2} \\ \mathcal{L}_{g t}(W) &=\mathcal{L}_{c l s}(W)+\lambda_{2} \mathcal{L}_{r e g}(W) \end{aligned}</script><p>$\mathcal{L}(W)$ 表示特征图模仿的$L_2$ 损失，N表示region proposal的数量，$u^{i}$表示教师网络产生的第i个proposal经过spp处理后得到的特征，$v{i}$同理，r是一个回归函数用来统一两者的维度。</p>
-<p>这样还存在问题，一是特征图的的值可能较大，需要小心平衡，groundtruth损失和mimic损失，即$\lambda$ 参数；二是spp可能会破坏特征。所以进行了归一化改进，和去除spp.</p>
+<p>这样还存在问题，一是特征图的的值可能较大，需要小心平衡，groundtruth损失和mimic损失，即$\lambda$ 参数；二是spp可能会破坏特征。所以进行了归一化改进，和去除spp,不同rp对应的特征图的大小是不同的。.</p>
 <script type="math/tex; mode=display">
 \mathcal{L}_{m}(W)=\frac{1}{2 N} \sum_{i} \frac{1}{m_{i}}\left\|u^{(i)}-r\left(v^{(i)}\right)\right\|_{2}^{2}</script></li>
 </ol>
@@ -536,12 +541,14 @@ L_{H i n t}(V, Z)=\|V-Z\|_{1}</script></li>
 </ol>
 <ul>
 <li><p>实验结果</p>
-<p>Caltech,评价指标：missrate on FPPI</p>
+<p>Caltech,评价指标：log average missrate on FPPI</p>
 <p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53yo475yaj30sc0ccq51.jpg" style="zoom:50%"></p>
 </li>
 </ul>
 <p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g53yqax3mlj30u20n2tci.jpg" style="zoom:50%"></p>
 <p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53ytkx7q6j30te0isgp2.jpg" style="zoom:50%"></p>
+<p>减小输入分辨率：</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g5c68zwqb9j30io08k3zt.jpg" style="zoom:50"></p>
 <p>Pascal VOC 评价指标：mAP</p>
 <p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzm5xpwj30u00c0tam.jpg" style="zoom:50%"></p>
 <p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzxrpbej30sm0gk76z.jpg" style="zoom:50%"></p>
@@ -710,6 +717,15 @@ f\left(\mathbf{x}_{i}\right)=\frac{\max \left\{\mathbf{x}_{i(j)}\right\} \forall
 <p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g555gehz77j30iu09m0u1.jpg" style="zoom:50%"></p>
 </li>
 <li><p>复现难度：将要开源</p>
+</li>
+</ul>
+<h3 id="3-2019-arXiv-Deep-Face-Recognition-Model-Compression-via-Knowledge-Transfer-and-Distillation"><a href="#3-2019-arXiv-Deep-Face-Recognition-Model-Compression-via-Knowledge-Transfer-and-Distillation" class="headerlink" title="3.2019-arXiv-Deep Face Recognition Model Compression via Knowledge Transfer and Distillation"></a>3.2019-arXiv-<a href="https://arxiv.org/abs/1906.00619" target="_blank" rel="noopener">Deep Face Recognition Model Compression via Knowledge Transfer and Distillation</a></h3><ul>
+<li><p><strong>论文摘要:</strong> 降低输入图像的大小来压缩网络，通过蒸馏方法来提高精度。</p>
+</li>
+<li><p><strong>数据集：</strong> LFW</p>
+</li>
+<li><p><strong>实验结果：</strong> </p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g5c44c953uj30j40ayabb.jpg" style="zoom:50%"></p>
 </li>
 </ul>
 <h3 id="开源统计："><a href="#开源统计：" class="headerlink" title="开源统计："></a>开源统计：</h3><p><a href="https://github.com/RuiChen96/MaskRCNN-PyTorch" target="_blank" rel="noopener">MaskRcnn with Knowledge Distillation (pytorch)</a> </p>
