@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达到并行">
+<meta name="description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达">
 <meta name="keywords" content="我看的论文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="模型压缩之蒸馏论文总结">
 <meta property="og:url" content="http://yoursite.com/2019/07/15/模型压缩之蒸馏论文总结/index.html">
 <meta property="og:site_name" content="Young">
-<meta property="og:description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达到并行">
+<meta property="og:description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g5darvpwhdj31c00u0n5l.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g58nd6kaiqj31c00u0qf8.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g5dasgsm7ij31c00u0qe3.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g58ndmdsuqj31c00u0120.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/large/006tNc79ly1g58ne2telcj31c00u0agp.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g5dasqnhz9j31c00u07bb.jpg">
 <meta property="og:image" content="https://camo.githubusercontent.com/cfee36c2ed92f4515c856267d1815cb1632312a7/68747470733a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f353532393939372d336566303536356132313565333966382e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f">
 <meta property="og:image" content="http://ww4.sinaimg.cn/large/006tNc79ly1g57hn81kbwj31am0ig79m.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g57jpyppefj318g070aam.jpg">
@@ -130,11 +133,11 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g555d2woo1j30j605474v.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g555gehz77j30iu09m0u1.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g5c44c953uj30j40ayabb.jpg">
-<meta property="og:updated_time" content="2019-07-26T06:03:21.651Z">
+<meta property="og:updated_time" content="2019-07-26T08:00:18.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型压缩之蒸馏论文总结">
-<meta name="twitter:description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达到并行">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g58nd6kaiqj31c00u0qf8.jpg">
+<meta name="twitter:description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g5darvpwhdj31c00u0n5l.jpg">
 
 
 
@@ -344,9 +347,12 @@
       
 
       
-        <p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g58nd6kaiqj31c00u0qf8.jpg" alt="image-20190722152711483"></p>
+        <p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g5darvpwhdj31c00u0n5l.jpg" alt="屏幕快照 2019-07-26 下午3.57.46"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g58nd6kaiqj31c00u0qf8.jpg" alt="image-20190722152711483"></p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g5dasgsm7ij31c00u0qe3.jpg" alt="屏幕快照 2019-07-26 下午3.57.56"></p>
 <p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g58ndmdsuqj31c00u0120.jpg" alt="image-20190722152735168"></p>
 <p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g58ne2telcj31c00u0agp.jpg" alt="image-20190722152803527"></p>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g5dasqnhz9j31c00u07bb.jpg" alt="屏幕快照 2019-07-26 下午3.58.04"></p>
 <h2 id="图像分类"><a href="#图像分类" class="headerlink" title="图像分类"></a>图像分类</h2><h4 id="1-2015-NIPS-Distilling-the-Knowledge-in-a-Neural-Network"><a href="#1-2015-NIPS-Distilling-the-Knowledge-in-a-Neural-Network" class="headerlink" title="1.2015-NIPS-Distilling the Knowledge in a Neural Network"></a>1.2015-NIPS-<a href="https://arxiv.org/pdf/1503.02531.pdf" target="_blank" rel="noopener">Distilling the Knowledge in a Neural Network</a></h4><ul>
 <li><p>论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的<a href="https://arxiv.org/abs/1312.6184" target="_blank" rel="noopener">另一篇论文</a> 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达到并行快速训练的效果。</p>
 </li>
