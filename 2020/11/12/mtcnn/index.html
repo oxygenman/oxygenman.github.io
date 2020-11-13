@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-cn">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="mtcnn详解主要工作 采用三级级联卷积神经网络架构 多任务学习:联合人脸检测框和人脸关键点进行学习 提出一种在线难例挖掘策略    实验结果人脸检测            在widerface数据集上的pr曲线     人脸对齐 评价标准:the inter-ocular distance normalized error  e_{i}=\frac{\left\|\mathrm{x}_{i}-\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Young">
+<meta property="og:url" content="http://yoursite.com/2020/11/12/mtcnn/index.html">
+<meta property="og:site_name" content="Young">
+<meta property="og:description" content="mtcnn详解主要工作 采用三级级联卷积神经网络架构 多任务学习:联合人脸检测框和人脸关键点进行学习 提出一种在线难例挖掘策略    实验结果人脸检测            在widerface数据集上的pr曲线     人脸对齐 评价标准:the inter-ocular distance normalized error  e_{i}=\frac{\left\|\mathrm{x}_{i}-\">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110140821306.png">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110140925629.png">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110141111114.png">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201111201401030.png">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/v2-8e2d0268a6105c44af8512fbf24a3321_720w.jpg">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201112180556206.png">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201112182909435.png">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201112183317932.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Calpha">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Calpha_%7Bdet%7D%3D1+%EF%BC%8C++%5Calpha_%7Bbox%7D%3D0.5+%EF%BC%8C%5Calpha_%7Blandmark%7D%3D0.5">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Calpha_%7Bdet%7D%3D1+%EF%BC%8C++%5Calpha_%7Bbox%7D%3D0.5+%EF%BC%8C%5Calpha_%7Blandmark%7D%3D1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbeta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbeta+%3D%5Cleft%28+0%2C1+%5Cright%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=\beta^{det}%3D1+，\beta^{box}%3D0，\beta^{lamdmark}%3D0">
+<meta property="og:updated_time" content="2020-11-12T17:39:07.929Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Young">
+<meta name="twitter:description" content="mtcnn详解主要工作 采用三级级联卷积神经网络架构 多任务学习:联合人脸检测框和人脸关键点进行学习 提出一种在线难例挖掘策略    实验结果人脸检测            在widerface数据集上的pr曲线     人脸对齐 评价标准:the inter-ocular distance normalized error  e_{i}=\frac{\left\|\mathrm{x}_{i}-\">
+<meta name="twitter:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110140821306.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/12/mtcnn/">
+
+
+
+
+
+  <title> | Young</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Young</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/12/mtcnn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-12T01:28:01+08:00">
+                2020-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="mtcnn详解"><a href="#mtcnn详解" class="headerlink" title="mtcnn详解"></a>mtcnn详解</h2><h3 id="主要工作"><a href="#主要工作" class="headerlink" title="主要工作"></a>主要工作</h3><ol>
+<li>采用三级级联卷积神经网络架构</li>
+<li>多任务学习:联合人脸检测框和人脸关键点进行学习</li>
+<li>提出一种在线难例挖掘策略  </li>
+</ol>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="人脸检测"><a href="#人脸检测" class="headerlink" title="人脸检测"></a><strong>人脸检测</strong></h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110140821306.png" alt="image-20201110140821306"></th>
+<th style="text-align:center"><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110140925629.png" alt="image-20201110140925629"></th>
+<th><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201110141111114.png" alt="image-20201110141111114"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td style="text-align:center"><strong>在widerface数据集上的pr曲线</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="人脸对齐"><a href="#人脸对齐" class="headerlink" title="人脸对齐"></a><strong>人脸对齐</strong></h4><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201111201401030.png" alt="image-20201111201401030"></p>
+<p>评价标准:the inter-ocular distance normalized error</p>
+<script type="math/tex; mode=display">
+e_{i}=\frac{\left\|\mathrm{x}_{i}-\mathrm{x}_{i}^{*}\right\|_{2}}{d_{I O D}}</script><p>选取n张人脸求分子为两点之间的距离,分母为两眼中心的间距,目的是对距离做一个归一化屏蔽脸部大小问题.</p>
+<h4 id="算法效率"><a href="#算法效率" class="headerlink" title="算法效率"></a><strong>算法效率</strong></h4><p>在2.60GHz CPU上16fps, 在GPU (Nvidia Titan Black)上99fps.(matlab 代码).</p>
+<h3 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h3><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/v2-8e2d0268a6105c44af8512fbf24a3321_720w.jpg" alt="img" style="zoom: 80%;"></p>
+<ol>
+<li><strong>Image Pyramid:</strong>制作图像金字塔（将尺寸从大到小的图像堆叠在一起类似金字塔形状，故名图像金字塔），对输入图像resize 到不同尺寸，输入网络。</li>
+<li><strong>Stage 1 :</strong> 将金字塔图像输入P-Net（Proposal Network)，获取含人脸的Proposal boundding boxes，并通过非极大值抑制（NMS）算法(后面对NMS算法的过程进行了补充）去除冗余框，这样便初步得到一些人脸检测候选框。</li>
+<li><strong>Stage 2 :</strong> 将P-Net输出得到的人脸图像输入R-Net（Refinement Network)，对人脸检测框坐标进行进一步的细化，通过NMS算法去除冗余框，此时的到的人脸检测框更加精准且冗余框更少。</li>
+<li><strong>Stage 3 :</strong> 将R-Net输出得到的人脸图像输入O-Net（Output Network)，一方面对人脸检测框坐标进行进一步的细化，另一方面输出人脸5个关键点（左眼、右眼、鼻子、左嘴角、右嘴角）坐标。</li>
+</ol>
+<h3 id="图像金字塔"><a href="#图像金字塔" class="headerlink" title="图像金字塔"></a>图像金字塔</h3><ul>
+<li><p><strong>图像金字塔的作用</strong></p>
+<p>因为待测试的图像中人脸的大小是不确定的，为了获取到包含合适人脸候选框，就在不同尺度的输入图像中截取相同大小的patch.是为了解决目标检测过程中目标尺度变化的问题。其缺点是图像的预处理过程比较耗时，特别是当输入图片较大时更耗时，从而影响推理速度。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/92005927" target="_blank" rel="noopener">解决目标多尺度问题的几种方法</a></p>
+<ol>
+<li>图像金字塔：图像处理效率太低</li>
+<li>单个高层特征图：丧失了低层特征，不利于小目标的检测</li>
+<li>多层特征：没有将高层语义特征和低层结构特征进行融合</li>
+<li>FPN：融合了高层语义特征和低层结构特征</li>
+</ol>
+</li>
+<li><p><strong>图像金字塔的实现</strong></p>
+<ol>
+<li><p>金字塔要建多少层，即一共要生成多少张图像</p>
+</li>
+<li><p>每张图像的尺寸如何确定<br>在人脸检测时，通常要设置原图中要检测的最小人脸尺寸，原图中小于这个尺寸的人脸可以忽略，MTCNN代码中为minsize=20，MTCNN P-Net用于检测12×12大小的人脸。<br>（1）人脸检测中的图像金字塔构建，涉及如下数据：<br>输入图像尺寸，定义为（h, w） = （100, 120）<br>最小人脸尺寸，定义为 min_face_size = 20<br>最大人脸尺寸，如果不设置，为图像高宽中较短的那个，定义为max_face_size = 100<br>网络能检测的人脸尺寸，定义为net_face_size = 12<br>金字塔层间缩放比率，定义为factor = 0.709<br>图像金字塔中<br>最大缩放尺度max_scale = net_face_size / min_face_size = 12 / 20，<br>最小缩放尺度min_scale = net_face_size / max_face_size = 12 / 100，<br>中间的缩放尺度scale_n = max_scale <em> (factor ^ n) = ，<br>对应的图像尺寸为(h_n, w_n) = (h </em> scale_n, w_n <em> scale_n)<br>（2）举例解释说明：<br>当原图（100, 120）中有一个最小人脸（20, 20）时，<br>（20, 20）&gt;（12, 12）图像缩小比（为缩放尺寸的倒数）最小20 / 12，原图由（100, 120）&gt;（60, 72），图像（60, 72）为图像金字塔的最底层。根据金字塔层间缩放比率，每层图像的尺寸为：<br>(h_n, w_n) = (h </em> scale_n, w_n * scale_n)<br>=（100×12/20×0.709^ n，120×12/20×0.709^ n）<br>同时需要保证min(h_n, w_n) &gt;net_face_size</p>
+</li>
+<li><p>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">processed_image</span><span class="params">(img, scale)</span>:</span></span><br><span class="line">    height, width, channels = img.shape</span><br><span class="line">    new_height = int(height * scale)  </span><br><span class="line">    new_width = int(width * scale)  </span><br><span class="line">    new_dim = (new_width, new_height)</span><br><span class="line">    img_resized = cv2.resize(img, new_dim, interpolation=cv2.INTER_LINEAR)  <span class="comment"># resized image</span></span><br><span class="line">    img_resized = (img_resized - <span class="number">127.5</span>) / <span class="number">128</span>   </span><br><span class="line">    <span class="keyword">return</span> img_resized</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pyramid_image</span><span class="params">(img)</span>:</span></span><br><span class="line">    net_size = <span class="number">12</span>       </span><br><span class="line">    min_face_size = <span class="number">20</span></span><br><span class="line">    current_scale = float(net_size) / self.min_face_size  <span class="comment"># find initial scale</span></span><br><span class="line">    im_resized = processed_image(img, current_scale)  <span class="comment"># the first layer of image pyramid</span></span><br><span class="line">    current_height, current_width, _ = im_resized.shape</span><br><span class="line">    <span class="keyword">while</span> min(current_height, current_width) &gt; net_size:</span><br><span class="line">        current_scale *= self.scale_factor</span><br><span class="line">        im_resized = processed_image(im, current_scale)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="训练数据的生成"><a href="#训练数据的生成" class="headerlink" title="训练数据的生成"></a>训练数据的生成</h3><p>三个网络训练过程中的数据可分为4类样本数据，分别对应mtcnn的三种损失函数：</p>
+<p>（1）face/non-face classification ：pos和neg样本数据</p>
+<p>（2）bounding box regression：pos和part样本数据</p>
+<p>（3 ) facial landmark localization：landmark样本数据</p>
+<ul>
+<li><p><strong>pos,net,part数据的生成</strong>：</p>
+<p>其中，pos,net,part训练数据是根据gt的IOU大小决定的。</p>
+<ul>
+<li>对于pos样本，先根据gt，并产生随机偏移，iou和gt大于0.65被选为pos样本</li>
+<li>对于part样本，同样根据gt，并产生随机偏移，iou和gt在0.4～0.65被选为part样本</li>
+<li>对于neg样本，则是在图片随机crop， iou和gt小于0.3的被选为neg样本</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> annotation <span class="keyword">in</span> annotations:</span><br><span class="line">    annotation = annotation.strip().split(<span class="string">' '</span>)</span><br><span class="line">    <span class="comment">#image path</span></span><br><span class="line">    im_path = annotation[<span class="number">0</span>]</span><br><span class="line">    <span class="comment">#print(im_path)</span></span><br><span class="line">    <span class="comment">#boxed change to float type</span></span><br><span class="line">    bbox = list(map(float, annotation[<span class="number">1</span>:]))</span><br><span class="line">    <span class="comment">#gt</span></span><br><span class="line">    boxes = np.array(bbox, dtype=np.float32).reshape(<span class="number">-1</span>, <span class="number">4</span>)</span><br><span class="line">    <span class="comment">#load image</span></span><br><span class="line">    img = cv2.imread(os.path.join(im_dir, im_path + <span class="string">'.jpg'</span>))</span><br><span class="line">    idx += <span class="number">1</span></span><br><span class="line">    <span class="comment">#if idx % 100 == 0:</span></span><br><span class="line">        <span class="comment">#print(idx, "images done")</span></span><br><span class="line"></span><br><span class="line">    height, width, channel = img.shape</span><br><span class="line"></span><br><span class="line">    neg_num = <span class="number">0</span></span><br><span class="line">    <span class="comment">#1----&gt;50</span></span><br><span class="line">    <span class="comment"># keep crop random parts, until have 50 negative examples</span></span><br><span class="line">    <span class="comment"># get 50 negative sample from every image</span></span><br><span class="line">    <span class="keyword">while</span> neg_num &lt; <span class="number">50</span>:</span><br><span class="line">        <span class="comment">#neg_num's size [40,min(width, height) / 2],min_size:40</span></span><br><span class="line">        <span class="comment"># size is a random number between 12 and min(width,height)</span></span><br><span class="line">        size = npr.randint(<span class="number">12</span>, min(width, height) / <span class="number">2</span>)</span><br><span class="line">        <span class="comment">#top_left coordinate</span></span><br><span class="line">        nx = npr.randint(<span class="number">0</span>, width - size)</span><br><span class="line">        ny = npr.randint(<span class="number">0</span>, height - size)</span><br><span class="line">        <span class="comment">#random crop</span></span><br><span class="line">        crop_box = np.array([nx, ny, nx + size, ny + size])</span><br><span class="line">        <span class="comment">#calculate iou</span></span><br><span class="line">        Iou = IoU(crop_box, boxes)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#crop a part from inital image</span></span><br><span class="line">        cropped_im = img[ny : ny + size, nx : nx + size, :]</span><br><span class="line">        <span class="comment">#resize the cropped image to size 12*12</span></span><br><span class="line">        resized_im = cv2.resize(cropped_im, (<span class="number">12</span>, <span class="number">12</span>), interpolation=cv2.INTER_LINEAR)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> np.max(Iou) &lt; <span class="number">0.3</span>:</span><br><span class="line">            <span class="comment"># Iou with all gts must below 0.3</span></span><br><span class="line">            save_file = os.path.join(neg_save_dir, <span class="string">"%s.jpg"</span>%n_idx)</span><br><span class="line">            f2.write(<span class="string">"../../DATA/12/negative/%s.jpg"</span>%n_idx + <span class="string">' 0\n'</span>)</span><br><span class="line">            cv2.imwrite(save_file, resized_im)</span><br><span class="line">            n_idx += <span class="number">1</span></span><br><span class="line">            neg_num += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">    <span class="comment">#for every bounding boxes</span></span><br><span class="line">    <span class="keyword">for</span> box <span class="keyword">in</span> boxes:</span><br><span class="line">        <span class="comment"># box (x_left, y_top, x_right, y_bottom)</span></span><br><span class="line">        x1, y1, x2, y2 = box</span><br><span class="line">        <span class="comment">#gt's width</span></span><br><span class="line">        w = x2 - x1 + <span class="number">1</span></span><br><span class="line">        <span class="comment">#gt's height</span></span><br><span class="line">        h = y2 - y1 + <span class="number">1</span></span><br><span class="line">        <span class="comment"># ignore small faces and those faces has left-top corner out of the image</span></span><br><span class="line">        <span class="comment"># in case the ground truth boxes of small faces are not accurate</span></span><br><span class="line">        <span class="keyword">if</span> max(w, h) &lt; <span class="number">20</span> <span class="keyword">or</span> x1 &lt; <span class="number">0</span> <span class="keyword">or</span> y1 &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">continue</span>      </span><br><span class="line">        <span class="comment"># crop another 5 images near the bounding box if IoU less than 0.5, save as negative samples</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">            <span class="comment">#size of the image to be cropped</span></span><br><span class="line">            size = npr.randint(<span class="number">12</span>, min(width, height) / <span class="number">2</span>)</span><br><span class="line">            <span class="comment"># delta_x and delta_y are offsets of (x1, y1)</span></span><br><span class="line">            <span class="comment"># max can make sure if the delta is a negative number , x1+delta_x &gt;0</span></span><br><span class="line">            <span class="comment"># parameter high of randint make sure there will be intersection between bbox and cropped_box</span></span><br><span class="line">            delta_x = npr.randint(max(-size, -x1), w)</span><br><span class="line">            delta_y = npr.randint(max(-size, -y1), h)</span><br><span class="line">            <span class="comment"># max here not really necessary</span></span><br><span class="line">            nx1 = int(max(<span class="number">0</span>, x1 + delta_x))</span><br><span class="line">            ny1 = int(max(<span class="number">0</span>, y1 + delta_y))</span><br><span class="line">            <span class="comment"># if the right bottom point is out of image then skip</span></span><br><span class="line">            <span class="keyword">if</span> nx1 + size &gt; width <span class="keyword">or</span> ny1 + size &gt; height:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            crop_box = np.array([nx1, ny1, nx1 + size, ny1 + size])</span><br><span class="line">            Iou = IoU(crop_box, boxes)</span><br><span class="line">    </span><br><span class="line">            cropped_im = img[ny1: ny1 + size, nx1: nx1 + size, :]</span><br><span class="line">            <span class="comment">#rexize cropped image to be 12 * 12</span></span><br><span class="line">            resized_im = cv2.resize(cropped_im, (<span class="number">12</span>, <span class="number">12</span>), interpolation=cv2.INTER_LINEAR)</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">if</span> np.max(Iou) &lt; <span class="number">0.3</span>:</span><br><span class="line">                <span class="comment"># Iou with all gts must below 0.3</span></span><br><span class="line">                save_file = os.path.join(neg_save_dir, <span class="string">"%s.jpg"</span> % n_idx)</span><br><span class="line">                f2.write(<span class="string">"../../DATA/12/negative/%s.jpg"</span> % n_idx + <span class="string">' 0\n'</span>)</span><br><span class="line">                cv2.imwrite(save_file, resized_im)</span><br><span class="line">                n_idx += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#产生positive和part</span></span><br><span class="line">        <span class="comment">#generate positive examples and part faces</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">            <span class="comment"># pos and part face size [minsize*0.8,maxsize*1.25]</span></span><br><span class="line">            size = npr.randint(int(min(w, h) * <span class="number">0.8</span>), np.ceil(<span class="number">1.25</span> * max(w, h)))</span><br><span class="line"></span><br><span class="line">            <span class="comment"># delta here is the offset of box center</span></span><br><span class="line">            <span class="keyword">if</span> w&lt;<span class="number">5</span>:</span><br><span class="line">                <span class="keyword">print</span> (w)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="comment">#print (box)</span></span><br><span class="line">            delta_x = npr.randint(-w * <span class="number">0.2</span>, w * <span class="number">0.2</span>)</span><br><span class="line">            delta_y = npr.randint(-h * <span class="number">0.2</span>, h * <span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment">#show this way: nx1 = max(x1+w/2-size/2+delta_x)</span></span><br><span class="line">            <span class="comment"># x1+ w/2 is the central point, then add offset , then deduct size/2</span></span><br><span class="line">            <span class="comment"># deduct size/2 to make sure that the right bottom corner will be out of</span></span><br><span class="line">            nx1 = int(max(x1 + w / <span class="number">2</span> + delta_x - size / <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">            <span class="comment">#show this way: ny1 = max(y1+h/2-size/2+delta_y)</span></span><br><span class="line">            ny1 = int(max(y1 + h / <span class="number">2</span> + delta_y - size / <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">            nx2 = nx1 + size</span><br><span class="line">            ny2 = ny1 + size</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> nx2 &gt; width <span class="keyword">or</span> ny2 &gt; height:</span><br><span class="line">                <span class="keyword">continue</span> </span><br><span class="line">            crop_box = np.array([nx1, ny1, nx2, ny2])</span><br><span class="line">            <span class="comment">#yu gt de offset</span></span><br><span class="line">            offset_x1 = (x1 - nx1) / float(size)</span><br><span class="line">            offset_y1 = (y1 - ny1) / float(size)</span><br><span class="line">            offset_x2 = (x2 - nx2) / float(size)</span><br><span class="line">            offset_y2 = (y2 - ny2) / float(size)</span><br><span class="line">            <span class="comment">#crop</span></span><br><span class="line">            cropped_im = img[ny1 : ny2, nx1 : nx2, :]</span><br><span class="line">            <span class="comment">#resize</span></span><br><span class="line">            resized_im = cv2.resize(cropped_im, (<span class="number">12</span>, <span class="number">12</span>), interpolation=cv2.INTER_LINEAR)</span><br><span class="line">            box_ = box.reshape(<span class="number">1</span>, <span class="number">-1</span>)</span><br><span class="line">            iou = IoU(crop_box, box_)</span><br><span class="line">            <span class="keyword">if</span> iou  &gt;= <span class="number">0.65</span>:</span><br><span class="line">                save_file = os.path.join(pos_save_dir, <span class="string">"%s.jpg"</span>%p_idx)</span><br><span class="line">                f1.write(<span class="string">"../../DATA/12/positive/%s.jpg"</span>%p_idx + <span class="string">' 1 %.2f %.2f %.2f %.2f\n'</span>%(offset_x1, offset_y1, offset_x2, offset_y2))</span><br><span class="line">                cv2.imwrite(save_file, resized_im)</span><br><span class="line">                p_idx += <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> iou &gt;= <span class="number">0.4</span>:</span><br><span class="line">                save_file = os.path.join(part_save_dir, <span class="string">"%s.jpg"</span>%d_idx)</span><br><span class="line">                f3.write(<span class="string">"../../DATA/12/part/%s.jpg"</span>%d_idx + <span class="string">' -1 %.2f %.2f %.2f %.2f\n'</span>%(offset_x1, offset_y1, offset_x2, offset_y2))</span><br><span class="line">                cv2.imwrite(save_file, resized_im)</span><br><span class="line">                d_idx += <span class="number">1</span></span><br><span class="line">        box_idx += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> idx % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">"%s images done, pos: %s part: %s neg: %s"</span> % (idx, p_idx, d_idx, n_idx))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>landmark数据的生成</strong></p>
+<p>原论文中使用的是CelebA数据集来生成的人脸关键点儿，tf版使用的是<a href="http://mmlab.ie.cuhk.edu.hk/archive/CNN_FacePoint.htm" target="_blank" rel="noopener">这个数据集</a>，除了使用原始的标注信息，并对原始的groundtruth数据进行了随机的偏移，选取boundingbox IOU&gt;0.65的数据用于训练，并做了mirror, roate, flip,anti-clockwise随机数据增强。</p>
+<p>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GenerateData</span><span class="params">(ftxt,data_path,net,argument=False)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    :param ftxt: name/path of the text file that contains image path,</span></span><br><span class="line"><span class="string">                bounding box, and landmarks</span></span><br><span class="line"><span class="string">    :param output: path of the output dir</span></span><br><span class="line"><span class="string">    :param net: one of the net in the cascaded networks</span></span><br><span class="line"><span class="string">    :param argument: apply augmentation or not</span></span><br><span class="line"><span class="string">    :return:  images and related landmarks</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">if</span> net == <span class="string">"PNet"</span>:</span><br><span class="line">        size = <span class="number">12</span></span><br><span class="line">    <span class="keyword">elif</span> net == <span class="string">"RNet"</span>:</span><br><span class="line">        size = <span class="number">24</span></span><br><span class="line">    <span class="keyword">elif</span> net == <span class="string">"ONet"</span>:</span><br><span class="line">        size = <span class="number">48</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'Net type error'</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    image_id = <span class="number">0</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    f = open(join(OUTPUT,<span class="string">"landmark_%s_aug.txt"</span> %(size)),<span class="string">'w'</span>)</span><br><span class="line">    <span class="comment">#dstdir = "train_landmark_few"</span></span><br><span class="line">    <span class="comment"># get image path , bounding box, and landmarks from file 'ftxt'</span></span><br><span class="line">    data = getDataFromTxt(ftxt,data_path=data_path)</span><br><span class="line">    idx = <span class="number">0</span></span><br><span class="line">    <span class="comment">#image_path bbox landmark(5*2)</span></span><br><span class="line">    <span class="keyword">for</span> (imgPath, bbox, landmarkGt) <span class="keyword">in</span> data:</span><br><span class="line">        <span class="comment">#print imgPath</span></span><br><span class="line">        F_imgs = []</span><br><span class="line">        F_landmarks = []</span><br><span class="line">        <span class="comment">#print(imgPath)</span></span><br><span class="line">        img = cv2.imread(imgPath)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span>(img <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>)</span><br><span class="line">        img_h,img_w,img_c = img.shape</span><br><span class="line">        gt_box = np.array([bbox.left,bbox.top,bbox.right,bbox.bottom])</span><br><span class="line">        <span class="comment">#get sub-image from bbox</span></span><br><span class="line">        f_face = img[bbox.top:bbox.bottom+<span class="number">1</span>,bbox.left:bbox.right+<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># resize the gt image to specified size</span></span><br><span class="line">        f_face = cv2.resize(f_face,(size,size))</span><br><span class="line">        <span class="comment">#initialize the landmark</span></span><br><span class="line">        landmark = np.zeros((<span class="number">5</span>, <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment">#normalize land mark by dividing the width and height of the ground truth bounding box</span></span><br><span class="line">        <span class="comment"># landmakrGt is a list of tuples</span></span><br><span class="line">        <span class="keyword">for</span> index, one <span class="keyword">in</span> enumerate(landmarkGt):</span><br><span class="line">            <span class="comment"># (( x - bbox.left)/ width of bounding box, (y - bbox.top)/ height of bounding box</span></span><br><span class="line">            rv = ((one[<span class="number">0</span>]-gt_box[<span class="number">0</span>])/(gt_box[<span class="number">2</span>]-gt_box[<span class="number">0</span>]), (one[<span class="number">1</span>]-gt_box[<span class="number">1</span>])/(gt_box[<span class="number">3</span>]-gt_box[<span class="number">1</span>]))</span><br><span class="line">            <span class="comment"># put the normalized value into the new list landmark</span></span><br><span class="line">            landmark[index] = rv</span><br><span class="line">        </span><br><span class="line">        F_imgs.append(f_face)</span><br><span class="line">        F_landmarks.append(landmark.reshape(<span class="number">10</span>))</span><br><span class="line">        landmark = np.zeros((<span class="number">5</span>, <span class="number">2</span>))        </span><br><span class="line">        <span class="keyword">if</span> argument:</span><br><span class="line">            idx = idx + <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> idx % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">                print(idx, <span class="string">"images done"</span>)</span><br><span class="line">            x1, y1, x2, y2 = gt_box</span><br><span class="line">            <span class="comment">#gt's width</span></span><br><span class="line">            gt_w = x2 - x1 + <span class="number">1</span></span><br><span class="line">            <span class="comment">#gt's height</span></span><br><span class="line">            gt_h = y2 - y1 + <span class="number">1</span>        </span><br><span class="line">            <span class="keyword">if</span> max(gt_w, gt_h) &lt; <span class="number">40</span> <span class="keyword">or</span> x1 &lt; <span class="number">0</span> <span class="keyword">or</span> y1 &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="comment">#random shift</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">                bbox_size = npr.randint(int(min(gt_w, gt_h) * <span class="number">0.8</span>), np.ceil(<span class="number">1.25</span> * max(gt_w, gt_h)))</span><br><span class="line">                delta_x = npr.randint(-gt_w * <span class="number">0.2</span>, gt_w * <span class="number">0.2</span>)</span><br><span class="line">                delta_y = npr.randint(-gt_h * <span class="number">0.2</span>, gt_h * <span class="number">0.2</span>)</span><br><span class="line">                nx1 = int(max(x1+gt_w/<span class="number">2</span>-bbox_size/<span class="number">2</span>+delta_x,<span class="number">0</span>))</span><br><span class="line">                ny1 = int(max(y1+gt_h/<span class="number">2</span>-bbox_size/<span class="number">2</span>+delta_y,<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">                nx2 = nx1 + bbox_size</span><br><span class="line">                ny2 = ny1 + bbox_size</span><br><span class="line">                <span class="keyword">if</span> nx2 &gt; img_w <span class="keyword">or</span> ny2 &gt; img_h:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                crop_box = np.array([nx1,ny1,nx2,ny2])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                cropped_im = img[ny1:ny2+<span class="number">1</span>,nx1:nx2+<span class="number">1</span>,:]</span><br><span class="line">                resized_im = cv2.resize(cropped_im, (size, size))</span><br><span class="line">                <span class="comment">#cal iou</span></span><br><span class="line">                iou = IoU(crop_box, np.expand_dims(gt_box,<span class="number">0</span>))</span><br><span class="line">                <span class="keyword">if</span> iou &gt; <span class="number">0.65</span>:</span><br><span class="line">                    F_imgs.append(resized_im)</span><br><span class="line">                    <span class="comment">#normalize</span></span><br><span class="line">                    <span class="keyword">for</span> index, one <span class="keyword">in</span> enumerate(landmarkGt):</span><br><span class="line">                        rv = ((one[<span class="number">0</span>]-nx1)/bbox_size, (one[<span class="number">1</span>]-ny1)/bbox_size)</span><br><span class="line">                        landmark[index] = rv</span><br><span class="line">                    F_landmarks.append(landmark.reshape(<span class="number">10</span>))</span><br><span class="line">                    landmark = np.zeros((<span class="number">5</span>, <span class="number">2</span>))</span><br><span class="line">                    landmark_ = F_landmarks[<span class="number">-1</span>].reshape(<span class="number">-1</span>,<span class="number">2</span>)</span><br><span class="line">                    bbox = BBox([nx1,ny1,nx2,ny2])                    </span><br><span class="line"></span><br><span class="line">                    <span class="comment">#mirror                    </span></span><br><span class="line">                    <span class="keyword">if</span> random.choice([<span class="number">0</span>,<span class="number">1</span>]) &gt; <span class="number">0</span>:</span><br><span class="line">                        face_flipped, landmark_flipped = flip(resized_im, landmark_)</span><br><span class="line">                        face_flipped = cv2.resize(face_flipped, (size, size))</span><br><span class="line">                        <span class="comment">#c*h*w</span></span><br><span class="line">                        F_imgs.append(face_flipped)</span><br><span class="line">                        F_landmarks.append(landmark_flipped.reshape(<span class="number">10</span>))</span><br><span class="line">                    <span class="comment">#rotate</span></span><br><span class="line">                    <span class="keyword">if</span> random.choice([<span class="number">0</span>,<span class="number">1</span>]) &gt; <span class="number">0</span>:</span><br><span class="line">                        face_rotated_by_alpha, landmark_rotated = rotate(img, bbox, \</span><br><span class="line">                                                                         bbox.reprojectLandmark(landmark_), <span class="number">5</span>)<span class="comment">#逆时针旋转</span></span><br><span class="line">                        <span class="comment">#landmark_offset</span></span><br><span class="line">                        landmark_rotated = bbox.projectLandmark(landmark_rotated)</span><br><span class="line">                        face_rotated_by_alpha = cv2.resize(face_rotated_by_alpha, (size, size))</span><br><span class="line">                        F_imgs.append(face_rotated_by_alpha)</span><br><span class="line">                        F_landmarks.append(landmark_rotated.reshape(<span class="number">10</span>))</span><br><span class="line">                </span><br><span class="line">                        <span class="comment">#flip</span></span><br><span class="line">                        face_flipped, landmark_flipped = flip(face_rotated_by_alpha, landmark_rotated)</span><br><span class="line">                        face_flipped = cv2.resize(face_flipped, (size, size))</span><br><span class="line">                        F_imgs.append(face_flipped)</span><br><span class="line">                        F_landmarks.append(landmark_flipped.reshape(<span class="number">10</span>))                </span><br><span class="line">                    </span><br><span class="line">                    <span class="comment">#anti-clockwise rotation</span></span><br><span class="line">                    <span class="keyword">if</span> random.choice([<span class="number">0</span>,<span class="number">1</span>]) &gt; <span class="number">0</span>: </span><br><span class="line">                        face_rotated_by_alpha, landmark_rotated = rotate(img, bbox, \</span><br><span class="line">                                                                         bbox.reprojectLandmark(landmark_), <span class="number">-5</span>)<span class="comment">#顺时针旋转</span></span><br><span class="line">                        landmark_rotated = bbox.projectLandmark(landmark_rotated)</span><br><span class="line">                        face_rotated_by_alpha = cv2.resize(face_rotated_by_alpha, (size, size))</span><br><span class="line">                        F_imgs.append(face_rotated_by_alpha)</span><br><span class="line">                        F_landmarks.append(landmark_rotated.reshape(<span class="number">10</span>))</span><br><span class="line">                </span><br><span class="line">                        face_flipped, landmark_flipped = flip(face_rotated_by_alpha, landmark_rotated)</span><br><span class="line">                        face_flipped = cv2.resize(face_flipped, (size, size))</span><br><span class="line">                        F_imgs.append(face_flipped)</span><br><span class="line">                        F_landmarks.append(landmark_flipped.reshape(<span class="number">10</span>)) </span><br><span class="line">                    </span><br><span class="line">            F_imgs, F_landmarks = np.asarray(F_imgs), np.asarray(F_landmarks)</span><br><span class="line">            <span class="comment">#print F_imgs.shape</span></span><br><span class="line">            <span class="comment">#print F_landmarks.shape</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(F_imgs)):</span><br><span class="line">                <span class="comment">#if image_id % 100 == 0:</span></span><br><span class="line"></span><br><span class="line">                    <span class="comment">#print('image id : ', image_id)</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> np.sum(np.where(F_landmarks[i] &lt;= <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>)) &gt; <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> np.sum(np.where(F_landmarks[i] &gt;= <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>)) &gt; <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                cv2.imwrite(join(dstdir,<span class="string">"%d.jpg"</span> %(image_id)), F_imgs[i])</span><br><span class="line">                landmarks = map(str,list(F_landmarks[i]))</span><br><span class="line">                f.write(join(dstdir,<span class="string">"%d.jpg"</span> %(image_id))+<span class="string">" -2 "</span>+<span class="string">" "</span>.join(landmarks)+<span class="string">"\n"</span>)</span><br><span class="line">                image_id = image_id + <span class="number">1</span></span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">return</span> F_imgs,F_landmark</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="三级级联网络架构"><a href="#三级级联网络架构" class="headerlink" title="三级级联网络架构"></a>三级级联网络架构</h3><h4 id="第一级网络P-Net"><a href="#第一级网络P-Net" class="headerlink" title="第一级网络P-Net:"></a>第一级网络P-Net:</h4><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201112180556206.png" alt="img" style="zoom: 50%;"></p>
+<p>P-Net包含三个卷积层，每个卷积核的大小均为3x3，是一个全卷积网络,没有全连接层。</p>
+<p>（1）作用：判断是否含人脸，并给出人脸框和关键点的位置，为O-Net提供人脸候选框。</p>
+<p>（2）输入：训练输入尺寸大小为 12x12的三通道图像 </p>
+<p>（3）输出：包含三部分：a.是否人脸的概率1x1x2向量；b.人脸检测框坐标（左上点和右下点）1x1x4向量；c.人脸关键点（5个关键点）坐标1x1x10向量。</p>
+<h4 id="第二级网络R-Net"><a href="#第二级网络R-Net" class="headerlink" title="第二级网络R-Net:"></a>第二级网络R-Net:</h4><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201112182909435.png" alt="image-20201112182909435" style="zoom:50%;"></p>
+<p>R-Net网络结构与P-Net的网络结构类似，也包含三个卷积层，前两个卷积核的大小均为3x3，第三个卷积核的大小为2x2，且其相比于P-Net 多了一个全连接层。</p>
+<p>（1）作用：对P-Net 输出可能为人脸候选框图像进一步进行判定，同时细化人脸检测目标框精度。</p>
+<p>（2）输入：训练输入尺寸大小为 24x24的三通道图像 </p>
+<p>（3）输出：包含三部分：a.是否人脸的概率的1x1x2向量；b.人脸检测框坐标（左上点和右下点）1x1x4向量；c.人脸关键点坐标1x1x10向量。</p>
+<h4 id="第三级网络O-Net"><a href="#第三级网络O-Net" class="headerlink" title="第三级网络O-Net:"></a>第三级网络O-Net:</h4><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/image-20201112183317932.png" alt="image-20201112183317932" style="zoom:50%;"></p>
+<p>O-Net网络结构相比R-Net的网络结构，多了一个3x3卷积层，</p>
+<p>（1）作用：对R-Net 输出可能为人脸的图像进一步进行判定，同时细化人脸检测目标框精度。</p>
+<p>（2）输入：训练尺寸大小为 48x48的三通道图像 </p>
+<p>（3）输出：包含三部分：a.是否人脸的概率的1x1x2向量；b.人脸检测框坐标（左上点和右下点）1x1x4向量；c.人脸关键点坐标1x1x10向量。</p>
+<h3 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h3><ul>
+<li><strong>损失函数</strong></li>
+</ul>
+<p>由于在MTCNN 中，每个网络都有三个输出，因此会对应有三个损失函数：</p>
+<p>1）对于输出a:是否人脸分类，由于是分类问题，其loss 函数使用常见的交叉熵损失：</p>
+<script type="math/tex; mode=display">
+L_{i}^{\text {det}}=-\left(y_{i}^{\text {det}} \log \left(p_{i}\right)+\left(1-y_{i}^{\text {det}}\right)\left(1-\log \left(p_{i}\right)\right)\right)</script><p>2）对于输出b:人脸检测框定位，由于是回归问题，所以使用L2 损失函数：</p>
+<script type="math/tex; mode=display">
+L_{i}^{b o x}=\left\|\hat{y}_{i}^{b o x}-y_{i}^{b o x}\right\|_{2}^{2}</script><p>3）对于输出c:人脸关键点定位，由于也是回归问题，所以也使用L2 损失函数：</p>
+<script type="math/tex; mode=display">
+L_{i}^{\text {landmark}}=\left\|\hat{y}_{i}^{\text {landmark}}-y_{i}^{\text {landmark}}\right\|_{2}^{2}</script><p>最终将三个损失函数进行加权累加，便得到总损失函数。由上述样本选择可知，当负样本和正样本训练时，由于仅用于分类，所以其仅有分类损失，而不存在人脸检测框和人脸关键点定位损失。即并不是所有的样本都同时存在上述三种损失。通过控制不同权重，使得三个网络的关注点不一样：</p>
+<script type="math/tex; mode=display">
+\min \sum_{i=1}^{N} \sum_{j \in\{\text {det}, \text {box}, \text {landmark}\}} \alpha_{j} \beta_{i}^{j} L_{i}^{j}</script><p>其中， <img src="https://www.zhihu.com/equation?tex=%5Calpha" alt="[公式]"> 表示权重值，对于P-Net 和R-Net 则更关注检测框定位的准确性，而较少关注关键点定位的准确性，所以关键点定位损失权重较小 <img src="https://www.zhihu.com/equation?tex=%5Calpha_%7Bdet%7D%3D1+%EF%BC%8C++%5Calpha_%7Bbox%7D%3D0.5+%EF%BC%8C%5Calpha_%7Blandmark%7D%3D0.5" alt="[公式]"> ；而对于O-Net 则更关注关键点定位准确性，所以此时关键点定位损失权重较大 <img src="https://www.zhihu.com/equation?tex=%5Calpha_%7Bdet%7D%3D1+%EF%BC%8C++%5Calpha_%7Bbox%7D%3D0.5+%EF%BC%8C%5Calpha_%7Blandmark%7D%3D1" alt="[公式]"> 。</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cbeta" alt="[公式]"> 表示这样本对哪种loss有效，其取值范围为 <img src="https://www.zhihu.com/equation?tex=%5Cbeta+%3D%5Cleft%28+0%2C1+%5Cright%29" alt="[公式]"> ，比如当想使用负样本数据时， <img src="https://www.zhihu.com/equation?tex=\beta^{det}%3D1+，\beta^{box}%3D0，\beta^{lamdmark}%3D0" alt="[公式]"></p>
+<p>。这样就可以在训练过程中自由的选择用什么样的样本去训练什么样的loss,比如Negatives和Positives用于分类损失，Positives和Part用于回归人脸框，Landmark用于回归关键点儿。 </p>
+<ul>
+<li><strong>难样本挖掘</strong></li>
+</ul>
+<p>不同于传统的难样本挖掘算法，论文中提出使用在线难样本挖掘。首先将前向传递得到的loss值降序排序，然后选择前70%大的样本作为难样本，并在反向传播的过程中只计算难样本的梯度，即将对于训练网络没有增强作用的简单样本忽略不计。</p>
+<ul>
+<li><strong>分阶段训练</strong><ol>
+<li>使用上面介绍训练数据的生成方法在widerface和celeba(或其他数据集)上分别生成positive,nagtive,part和landmark数据集。送入PNet进行训练。</li>
+<li>Rnet的训练pos，neg和part样本数据由先前训练好的Pnet产生，由Pnet对原始图片图片进行人脸检测，再根据预测的bbox与gt的iou值大小分别产生neg，pos和part数据，这是和Pnet训练数据产生差别之处。但它的landmark训练数据是从celeba单独产生的，只不过输入图片的大小是24*24.</li>
+<li>Onet训练数据和rnet类似，只是neg，part，pos的数据是经过前面训练的pnet，rnet产生，图片大小 为48*48</li>
+</ol>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h2><p><a href="https://arxiv.org/pdf/1604.02878.pdf" target="_blank" rel="noopener">论文链接:Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks</a> </p>
+<p><a href="https://zhuanlan.zhihu.com/p/92005927" target="_blank" rel="noopener">FPN以及其他几种解决多尺度问题的方法</a></p>
+<p><a href="https://blog.csdn.net/krais_wk/article/details/101444330" target="_blank" rel="noopener">mtcnn中构建图像金字塔</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/63948672" target="_blank" rel="noopener">人脸检测之mtcnn算法详解</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/15/模型压缩之蒸馏论文总结/" rel="next" title="模型压缩之蒸馏论文总结">
+                <i class="fa fa-chevron-left"></i> 模型压缩之蒸馏论文总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">xy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mtcnn详解"><span class="nav-number">1.</span> <span class="nav-text">mtcnn详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要工作"><span class="nav-number">1.1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-number">1.2.</span> <span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#人脸检测"><span class="nav-number">1.2.1.</span> <span class="nav-text">人脸检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#人脸对齐"><span class="nav-number">1.2.2.</span> <span class="nav-text">人脸对齐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法效率"><span class="nav-number">1.2.3.</span> <span class="nav-text">算法效率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整体流程"><span class="nav-number">1.3.</span> <span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像金字塔"><span class="nav-number">1.4.</span> <span class="nav-text">图像金字塔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练数据的生成"><span class="nav-number">1.5.</span> <span class="nav-text">训练数据的生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三级级联网络架构"><span class="nav-number">1.6.</span> <span class="nav-text">三级级联网络架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一级网络P-Net"><span class="nav-number">1.6.1.</span> <span class="nav-text">第一级网络P-Net:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二级网络R-Net"><span class="nav-number">1.6.2.</span> <span class="nav-text">第二级网络R-Net:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三级网络O-Net"><span class="nav-number">1.6.3.</span> <span class="nav-text">第三级网络O-Net:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练过程"><span class="nav-number">1.7.</span> <span class="nav-text">训练过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
