@@ -601,7 +601,7 @@ L_{i}^{\text {landmark}}=\left\|\hat{y}_{i}^{\text {landmark}}-y_{i}^{\text {lan
 <li><p><strong>方法：</strong> </p>
 </li>
 <li><p>通过网络中间层的attention map，完成teacher network与student network之间的知识迁移。考虑给定的tensor A，基于activation的attention map可以定义为如下三种之一：</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g57jpyppefj318g070aam.jpg" alt="image-20190721163509466"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57jpyppefj318g070aam.jpg" alt="image-20190721163509466"></p>
 <p>随着网络层次的加深，关键区域的attention-level也随之提高。文章最后采用了第二种形式的attention map，取p=2，并且activation-based attention map的知识迁移效果优于gradient-based attention map，loss定义及迁移过程如下：</p>
 <script type="math/tex; mode=display">
 \mathcal{L}_{A T}=\mathcal{L}\left(\mathbf{W}_{S}, x\right)+\frac{\beta}{2} \sum_{j \in \mathcal{I}}\left\|\frac{Q_{S}^{j}}{\left\|Q_{S}^{j}\right\|_{2}}-\frac{Q_{T}^{j}}{\left\|Q_{T}^{j}\right\|_{2}}\right\|_{p}</script><script type="math/tex; mode=display">
@@ -634,7 +634,7 @@ G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \time
 <ul>
 <li><p><strong>实验结果：</strong></p>
 <p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57lwhafgbj30tk0cs763.jpg" style="zoom:50%"></p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57ly168sdj30t60ck0uj.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57ly168sdj30t60ck0uj.jpg" style="zoom:50%"></p>
 </li>
 <li><p>复现性：h</p>
 </li>

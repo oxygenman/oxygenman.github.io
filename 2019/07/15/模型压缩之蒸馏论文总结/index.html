@@ -95,13 +95,13 @@
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5dasqnhz9j31c00u07bb.jpg">
 <meta property="og:image" content="https://camo.githubusercontent.com/cfee36c2ed92f4515c856267d1815cb1632312a7/68747470733a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f353532393939372d336566303536356132313565333966382e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57hn81kbwj31am0ig79m.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g57jpyppefj318g070aam.jpg">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57jpyppefj318g070aam.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57jurpzcqj31bq0h0jtv.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57k0b2rvtj31ba0bggms.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57ktjamrvj30sy0g2mzr.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57lki10knj31gs0u0tgk.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57lwhafgbj30tk0cs763.jpg">
-<meta property="og:image" content="http://ww4.sinaimg.cn/large/006tNc79ly1g57ly168sdj30t60ck0uj.jpg">
+<meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57ly168sdj30t60ck0uj.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51k7g3xa9j313o0l60tr.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53ren7gzuj31cm0lgdh1.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51mqkr1wzj30yo0kiaek.jpg">
@@ -133,7 +133,7 @@
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g555d2woo1j30j605474v.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79ly1g555gehz77j30iu09m0u1.jpg">
 <meta property="og:image" content="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5c44c953uj30j40ayabb.jpg">
-<meta property="og:updated_time" content="2022-07-17T11:05:14.420Z">
+<meta property="og:updated_time" content="2022-07-17T11:39:44.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型压缩之蒸馏论文总结">
 <meta name="twitter:description" content="图像分类1.2015-NIPS-Distilling the Knowledge in a Neural Network 论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的另一篇论文 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达">
@@ -405,7 +405,7 @@
 <li><p><strong>方法：</strong> </p>
 </li>
 <li><p>通过网络中间层的attention map，完成teacher network与student network之间的知识迁移。考虑给定的tensor A，基于activation的attention map可以定义为如下三种之一：</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g57jpyppefj318g070aam.jpg" alt="image-20190721163509466"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57jpyppefj318g070aam.jpg" alt="image-20190721163509466"></p>
 <p>随着网络层次的加深，关键区域的attention-level也随之提高。文章最后采用了第二种形式的attention map，取p=2，并且activation-based attention map的知识迁移效果优于gradient-based attention map，loss定义及迁移过程如下：</p>
 <script type="math/tex; mode=display">
 \mathcal{L}_{A T}=\mathcal{L}\left(\mathbf{W}_{S}, x\right)+\frac{\beta}{2} \sum_{j \in \mathcal{I}}\left\|\frac{Q_{S}^{j}}{\left\|Q_{S}^{j}\right\|_{2}}-\frac{Q_{T}^{j}}{\left\|Q_{T}^{j}\right\|_{2}}\right\|_{p}</script><script type="math/tex; mode=display">
@@ -438,7 +438,7 @@ G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \time
 <ul>
 <li><p><strong>实验结果：</strong></p>
 <p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57lwhafgbj30tk0cs763.jpg" style="zoom:50%"></p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57ly168sdj30t60ck0uj.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57ly168sdj30t60ck0uj.jpg" style="zoom:50%"></p>
 </li>
 <li><p>复现性：h</p>
 </li>
