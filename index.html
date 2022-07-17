@@ -543,12 +543,12 @@ L_{i}^{\text {landmark}}=\left\|\hat{y}_{i}^{\text {landmark}}-y_{i}^{\text {lan
       
         
           
-            <p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g5darvpwhdj31c00u0n5l.jpg" alt="屏幕快照 2019-07-26 下午3.57.46"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g58nd6kaiqj31c00u0qf8.jpg" alt="image-20190722152711483"></p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g5dasgsm7ij31c00u0qe3.jpg" alt="屏幕快照 2019-07-26 下午3.57.56"></p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g58ndmdsuqj31c00u0120.jpg" alt="image-20190722152735168"></p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g58ne2telcj31c00u0agp.jpg" alt="image-20190722152803527"></p>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g5dasqnhz9j31c00u07bb.jpg" alt="屏幕快照 2019-07-26 下午3.58.04"></p>
+            <p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5darvpwhdj31c00u0n5l.jpg" alt="屏幕快照 2019-07-26 下午3.57.46"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g58nd6kaiqj31c00u0qf8.jpg" alt="image-20190722152711483"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5dasgsm7ij31c00u0qe3.jpg" alt="屏幕快照 2019-07-26 下午3.57.56"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g58ndmdsuqj31c00u0120.jpg" alt="image-20190722152735168"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g58ne2telcj31c00u0agp.jpg" alt="image-20190722152803527"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5dasqnhz9j31c00u07bb.jpg" alt="屏幕快照 2019-07-26 下午3.58.04"></p>
 <h2 id="图像分类"><a href="#图像分类" class="headerlink" title="图像分类"></a>图像分类</h2><h4 id="1-2015-NIPS-Distilling-the-Knowledge-in-a-Neural-Network"><a href="#1-2015-NIPS-Distilling-the-Knowledge-in-a-Neural-Network" class="headerlink" title="1.2015-NIPS-Distilling the Knowledge in a Neural Network"></a>1.2015-NIPS-<a href="https://arxiv.org/pdf/1503.02531.pdf" target="_blank" rel="noopener">Distilling the Knowledge in a Neural Network</a></h4><ul>
 <li><p>论文摘要：该论文是Hinton对蒸馏概念的诠释，但是第一个提出蒸馏的方法的不是他，而是2104年的<a href="https://arxiv.org/abs/1312.6184" target="_blank" rel="noopener">另一篇论文</a> 。主要思想是将多个模型的支持整合到一个小的模型中，达到模型压缩的目的。该文章还提出了一种新的模型组合方式，使用一个或多个全模型和多个专家模型进行组合，可以达到并行快速训练的效果。</p>
 </li>
@@ -585,7 +585,7 @@ L_{i}^{\text {landmark}}=\left\|\hat{y}_{i}^{\text {landmark}}-y_{i}^{\text {lan
 </li>
 <li><p><strong>实验结果：</strong> </p>
 <p>这里只放一个cifar-10的实验作为说明。</p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57hn81kbwj31am0ig79m.jpg" alt="image-20190721152341678"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57hn81kbwj31am0ig79m.jpg" alt="image-20190721152341678"></p>
 </li>
 <li><p>复现性：开源<a href="https://github.com/adri-romsor/FitNets" target="_blank" rel="noopener">Theano</a></p>
 </li>
@@ -605,11 +605,11 @@ L_{i}^{\text {landmark}}=\left\|\hat{y}_{i}^{\text {landmark}}-y_{i}^{\text {lan
 <p>随着网络层次的加深，关键区域的attention-level也随之提高。文章最后采用了第二种形式的attention map，取p=2，并且activation-based attention map的知识迁移效果优于gradient-based attention map，loss定义及迁移过程如下：</p>
 <script type="math/tex; mode=display">
 \mathcal{L}_{A T}=\mathcal{L}\left(\mathbf{W}_{S}, x\right)+\frac{\beta}{2} \sum_{j \in \mathcal{I}}\left\|\frac{Q_{S}^{j}}{\left\|Q_{S}^{j}\right\|_{2}}-\frac{Q_{T}^{j}}{\left\|Q_{T}^{j}\right\|_{2}}\right\|_{p}</script><script type="math/tex; mode=display">
-Q_{S}^{j}=\operatorname{vec}\left(F\left(A_{S}^{j}\right)\right) \text { and } Q_{T}^{j}=\operatorname{vec}\left(F\left(A_{T}^{j}\right)\right)</script><p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g57jurpzcqj31bq0h0jtv.jpg" alt="image-20190721164008950"></p>
+Q_{S}^{j}=\operatorname{vec}\left(F\left(A_{S}^{j}\right)\right) \text { and } Q_{T}^{j}=\operatorname{vec}\left(F\left(A_{T}^{j}\right)\right)</script><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57jurpzcqj31bq0h0jtv.jpg" alt="image-20190721164008950"></p>
 </li>
 <li><p><strong>实验结果：</strong> </p>
 <p>cifar-10</p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57k0b2rvtj31ba0bggms.jpg" alt="image-20190721164521204"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57k0b2rvtj31ba0bggms.jpg" alt="image-20190721164521204"></p>
 </li>
 <li><p><strong>复现性</strong>：<a href="https://github.com/szagoruyko/attention-transfer" target="_blank" rel="noopener">开源</a> </p>
 </li>
@@ -625,15 +625,15 @@ Q_{S}^{j}=\operatorname{vec}\left(F\left(A_{S}^{j}\right)\right) \text { and } Q
 <li><p><strong>方法：</strong></p>
 <p>需要学习的知识可表示为训练的求解过程（FSP: Flow of the Solution Procedure），教师网络或学生网络的FSP矩阵定义如下（Gram形式的矩阵）：</p>
 <script type="math/tex; mode=display">
-G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \times F_{s, t, j}^{2}(x ; W)}{h \times w}</script><p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g57ktjamrvj30sy0g2mzr.jpg" alt="image-20190721171333348"></p>
+G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \times F_{s, t, j}^{2}(x ; W)}{h \times w}</script><p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57ktjamrvj30sy0g2mzr.jpg" alt="image-20190721171333348">p</p>
 </li>
 </ul>
 <p>训练第一阶段：最小化教师网络FSP矩阵和学生网络FSP矩阵之间的L2 Loss.</p>
 <script type="math/tex; mode=display">\begin{array}{l}{L_{F S P}\left(W_{t}, W_{s}\right)}  {=\frac{1}{N} \sum_{x} \sum_{i=1}^{n} \lambda_{i} \times\left\|\left(G_{i}^{T}\left(x ; W_{t}\right)-G_{i}^{S}\left(x ; W_{s}\right) \|_{2}^{2}\right.\right.}\end{array}</script><p>训练第二阶段：在目标任务的数据集上fine-tune学生网络。从而达到知识迁移，快速收敛，以及迁移学习的目的。</p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g57lki10knj31gs0u0tgk.jpg" alt="image-20190721173928639"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57lki10knj31gs0u0tgk.jpg" alt="image-20190721173928639"></p>
 <ul>
 <li><p><strong>实验结果：</strong></p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57lwhafgbj30tk0cs763.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57lwhafgbj30tk0cs763.jpg" style="zoom:50%"></p>
 <p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57ly168sdj30t60ck0uj.jpg" style="zoom:50%"></p>
 </li>
 <li><p>复现性：h</p>
@@ -647,24 +647,24 @@ G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \time
 <p>CIFAR-10,CIFAR-100, ImageNet LSVRC2012.</p>
 </li>
 <li><p><strong>方法</strong></p>
+<p>Neuron Selectivity Transfer (NST)</p>
+<p>为什么不直接匹配feature maps?因为它忽视了空间中样本的密度。</p>
+<p>NST Loss的定义为：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{\mathrm{NST}}\left(\mathbf{W}_{S}\right)=\mathcal{H}\left(\boldsymbol{y}_{\text { true }}, \boldsymbol{p}_{S}\right)+\frac{\lambda}{2} \mathcal{L}_{\mathrm{MMD}^{2}}\left(\mathbf{F}_{T}, \mathbf{F}_{S}\right)</script><p>$\mathcal{H}$ 表示标准交叉熵损失函数。</p>
 </li>
 </ul>
-<p>  Neuron Selectivity Transfer (NST)</p>
-<p>  为什么不直接匹配feature maps?因为它忽视了空间中样本的密度。</p>
-<p>  NST Loss的定义为：</p>
-<script type="math/tex; mode=display">
-  \mathcal{L}_{\mathrm{NST}}\left(\mathbf{W}_{S}\right)=\mathcal{H}\left(\boldsymbol{y}_{\text { true }}, \boldsymbol{p}_{S}\right)+\frac{\lambda}{2} \mathcal{L}_{\mathrm{MMD}^{2}}\left(\mathbf{F}_{T}, \mathbf{F}_{S}\right)</script><p>  $\mathcal{H}$ 表示标准交叉熵损失函数。</p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g51k7g3xa9j313o0l60tr.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51k7g3xa9j313o0l60tr.jpg" style="zoom:50%"></p>
 <p>​       其中k代表核函数，本文测试了3中核函数：</p>
 <p>​       线性核：$k(\boldsymbol{x}, \boldsymbol{y})=\boldsymbol{x}^{\top} \boldsymbol{y}$，线性核可以反映神经元对哪些特征反映强烈，即注意力。</p>
 <p>​      多项式核：$k(\boldsymbol{x}, \boldsymbol{y})=\left(\boldsymbol{x}^{\top} \boldsymbol{y}+c\right)^{d}$ 多项式核反映了区域相似性。</p>
 <p>​      高斯核：$k(\boldsymbol{x}, \boldsymbol{y})=\exp \left(-\frac{|\boldsymbol{x}-\boldsymbol{y}|_{2}^{2}}{2 \sigma^{2}}\right)$</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53ren7gzuj31cm0lgdh1.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53ren7gzuj31cm0lgdh1.jpg" style="zoom:50%"></p>
 <ul>
 <li><p><strong>实验结果</strong></p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g51mqkr1wzj30yo0kiaek.jpg" style="zoom: 50%"></p>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g51mrmkldaj30nc0fkwhj.jpg" style="zoom:50%"></p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g549nghgotj31am0bygoy.jpg" alt="屏幕快照 2019-07-16 下午1.52.01"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51mqkr1wzj30yo0kiaek.jpg" style="zoom: 50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51mrmkldaj30nc0fkwhj.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g549nghgotj31am0bygoy.jpg" alt="屏幕快照 2019-07-16 下午1.52.01"></p>
 </li>
 </ul>
 <h3 id="6-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer（图森）"><a href="#6-2017-DarkRank-Acclerating-Deep-Metric-Learning-Via-Cross-Sample-Similarities-Transfer（图森）" class="headerlink" title="6. 2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer（图森）"></a>6. 2017-DarkRank:Acclerating Deep Metric Learning Via Cross Sample Similarities Transfer（图森）</h3><ul>
@@ -675,13 +675,11 @@ G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \time
 </li>
 <li><p><strong>网络模型：</strong> Inception-BN, NIN-BN</p>
 <p>方法：</p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57s3augprj30y10jkjtz.jpg" alt="img"></p>
 </li>
-</ul>
-<p>  <img src="http://ww2.sinaimg.cn/large/006tNc79ly1g57s3augprj30y10jkjtz.jpg" alt="img"></p>
-<ul>
 <li><p>实验结果：</p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57sj9fiaej30tg0nogpq.jpg" style="zoom: 50%"></p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57slsxg8wj30ty0hwtba.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57sj9fiaej30tg0nogpq.jpg" style="zoom: 50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57slsxg8wj30ty0hwtba.jpg" style="zoom:50%"></p>
 </li>
 <li><p>复现性：开源<a href="https://github.com/TuSimple/DarkRank" target="_blank" rel="noopener">MxNet</a></p>
 </li>
@@ -695,30 +693,27 @@ G_{i, j}(x ; W)=\sum_{s=1}^{h} \sum_{t=1}^{w} \frac{F_{s, t, i}^{1}(x ; W) \time
 <li><p><strong>基础网络：</strong> Resnet50, VGG11</p>
 </li>
 <li><p><strong>方法：</strong> </p>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g57mvel4z0j30q40m0wkr.jpg" style="zoom:50%"> </p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57mvel4z0j30q40m0wkr.jpg" style="zoom:50%"> </p>
 <p>定义新的损失函数：</p>
 <script type="math/tex; mode=display">
 \mathcal{L}_{\mathrm{RKD}}=\sum_{\left(x_{1}, \ldots, x_{n}\right) \in \mathcal{X}^{N}} l\left(\psi\left(t_{1}, . ., t_{n}\right), \psi\left(s_{1}, \dots, s_{n}\right)\right)</script><p>其中$（x_1,x_2,…x_n）$ 是 n个样本组成的关系元组。$\psi$ 是relational potential function.</p>
 <ul>
-<li>Distance wise distillation loss<script type="math/tex; mode=display">
+<li><p>Distance wise distillation loss</p>
+<script type="math/tex; mode=display">
 \psi_{\mathrm{D}}\left(t_{i}, t_{j}\right)=\frac{1}{\mu}\left\|t_{i}-t_{j}\right\|_{2}</script></li>
 </ul>
 <script type="math/tex; mode=display">
-  \mathcal{L}_{\mathrm{RKD}-\mathrm{D}}=\sum_{\left(x_{i}, x_{j}\right) \in \mathcal{X}^{2}} l_{\delta}\left(\psi_{\mathrm{D}}\left(t_{i}, t_{j}\right), \psi_{\mathrm{D}}\left(s_{i}, s_{j}\right)\right)</script><p>  Huber Loss</p>
+\mathcal{L}_{\mathrm{RKD}-\mathrm{D}}=\sum_{\left(x_{i}, x_{j}\right) \in \mathcal{X}^{2}} l_{\delta}\left(\psi_{\mathrm{D}}\left(t_{i}, t_{j}\right), \psi_{\mathrm{D}}\left(s_{i}, s_{j}\right)\right)</script><p>  Huber Loss</p>
 <script type="math/tex; mode=display">
-  l_{\delta}(x, y)=\left\{\begin{array}{ll}{\frac{1}{2}(x-y)^{2}} & {\text { for }|x-y| \leq 1} \\ {|x-y|-\frac{1}{2},} & {\text { otherwise }}\end{array}\right.</script></li>
-</ul>
-<ul>
+l_{\delta}(x, y)=\left\{\begin{array}{ll}{\frac{1}{2}(x-y)^{2}} & {\text { for }|x-y| \leq 1} \\ {|x-y|-\frac{1}{2},} & {\text { otherwise }}\end{array}\right.</script></li>
 <li><p>Angle-wise distillation loss</p>
 <script type="math/tex; mode=display">
 \begin{array}{l}{\psi_{\mathrm{A}}\left(t_{i}, t_{j}, t_{k}\right)=\cos \angle t_{i} t_{j} t_{k}=\left\langle\mathbf{e}^{i j}, \mathbf{e}^{k j}\right\rangle} \\ {\text { where } \quad \mathbf{e}^{i j}=\frac{t_{i}-t_{j}}{\left\|t_{i}-t_{j}\right\|_{2}}, \mathbf{e}^{k j}=\frac{t_{k}-t_{j}}{\left\|t_{k}-t_{j}\right\|_{2}}}\end{array}</script><script type="math/tex; mode=display">
 \mathcal{L}_{\mathrm{RKD}-\mathrm{A}}=\sum_{\left(x_{i}, x_{j}, x_{k}\right) \in \mathcal{X}^{3}} l_{\delta}\left(\psi_{\mathrm{A}}\left(t_{i}, t_{j}, t_{k}\right), \psi_{\mathrm{A}}\left(s_{i}, s_{j}, s_{k}\right)\right)</script></li>
-</ul>
-<ul>
 <li><p>实验结果</p>
 <p>teacher:resnet-50, student:VGG11</p>
 <p>teacher:resnet-101, resnet-18</p>
-<p><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g57qrao0jqj30u40i4t9x.jpg" style="zoom: 50%"> </p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g57qrao0jqj30u40i4t9x.jpg" style="zoom: 50%"> </p>
 </li>
 <li><p>复现难度：h</p>
 </li>
@@ -755,11 +750,11 @@ L_{H i n t}(V, Z)=\|V-Z\|_{1}</script></li>
 </ol>
 </li>
 <li><p><strong>实验结果</strong></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51hrfjvvaj312y0eoq7c.jpg" alt="屏幕快照 2019-07-16 上午10.54.04"></p>
+<p>下图是使用高分辨率图片训练教师网络，低分辨率图片训练学生网络的结果。</p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g51i305natj31cu0cqjv1.jpg" alt="屏幕快照 2019-07-16 上午11.05.15"></p>
 </li>
 </ul>
-<p>  <img src="http://ww2.sinaimg.cn/large/006tNc79ly1g51hrfjvvaj312y0eoq7c.jpg" alt="屏幕快照 2019-07-16 上午10.54.04"></p>
-<p>  下图是使用高分辨率图片训练教师网络，低分辨率图片训练学生网络的结果。</p>
-<p>  <img src="http://ww2.sinaimg.cn/large/006tNc79ly1g51i305natj31cu0cqjv1.jpg" alt="屏幕快照 2019-07-16 上午11.05.15"></p>
 <h3 id="2-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection"><a href="#2-2017-商汤-Mimicking-Very-Efficient-Network-for-Object-Detection" class="headerlink" title="2. 2017-商汤-Mimicking Very Efficient Network for Object Detection"></a>2. <a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=29f43e4a7e341d555f0f95566bde9cd4&amp;site=xueshu_se" target="_blank" rel="noopener">2017-商汤-Mimicking Very Efficient Network for Object Detection</a></h3><ul>
 <li><p>论文摘要：</p>
 <p>论文针对目标检测模型，论文提出了一种针对特征图Mimicking(蒸馏)的方法，主要针对localregion进行蒸馏，而不是全局特征。小型化的Inception取得了2.5倍的压缩，并取得和原始模型相当的准确度。在Caltech数据集上处理1000x1500的输入可以达到80FPS。</p>
@@ -788,16 +783,16 @@ L_{H i n t}(V, Z)=\|V-Z\|_{1}</script></li>
 <ul>
 <li><p>实验结果</p>
 <p>Caltech,评价指标：log average missrate on FPPI</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53yo475yaj30sc0ccq51.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53yo475yaj30sc0ccq51.jpg" style="zoom:50%"></p>
 </li>
 </ul>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g53yqax3mlj30u20n2tci.jpg" style="zoom:50%"></p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g53ytkx7q6j30te0isgp2.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53yqax3mlj30u20n2tci.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53ytkx7q6j30te0isgp2.jpg" style="zoom:50%"></p>
 <p>减小输入分辨率：</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g5c68zwqb9j30io08k3zt.jpg" style="zoom:50"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5c68zwqb9j30io08k3zt.jpg" style="zoom:50"></p>
 <p>Pascal VOC 评价指标：mAP</p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzm5xpwj30u00c0tam.jpg" style="zoom:50%"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g53yzxrpbej30sm0gk76z.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53yzm5xpwj30u00c0tam.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g53yzxrpbej30sm0gk76z.jpg" style="zoom:50%"></p>
 <ul>
 <li>复现难度：m</li>
 </ul>
@@ -809,7 +804,7 @@ L_{H i n t}(V, Z)=\|V-Z\|_{1}</script></li>
 <li><p>基础网络：VGG with R-FCN，ResNet with Faster-R-CNN.</p>
 </li>
 <li><p>方法：</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g540ls258aj31820tsgrz.jpg" alt="image-20190718151724599"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g540ls258aj31820tsgrz.jpg" alt="image-20190718151724599"></p>
 <ol>
 <li><p>量化：对教师网络的最后一层特征进行量化，使用Uniform量化，因为他更适用于当前模型。</p>
 <p>量化函数$Q$为：</p>
@@ -826,8 +821,7 @@ D=\{0, s, 2 s, 3 s . .\}</script><p>s是量化步长。</p>
 </li>
 </ul>
 <ol>
-<li>Quantization Mimic:<script type="math/tex; mode=display">
-  L_{m}=\frac{1}{2 N} \sum_{i}\left\|Q\left(f_{t}^{i}\right)-Q\left(r\left(f_{s}^{i}\right)\right)\right\|_{2}^{2}</script>  <img src="http://ww2.sinaimg.cn/large/006tNc79ly1g5417b20v3j31180scn42.jpg" alt="image-20190718153806956"></li>
+<li>Quantization Mimic:<br>  $<br>  L_{m}=\frac{1}{2 N} \sum_{i}\left|Q\left(f_{t}^{i}\right)-Q\left(r\left(f_{s}^{i}\right)\right)\right|_{2}^{2}<br>  $<br>  <img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5417b20v3j31180scn42.jpg" alt="image-20190718153806956"></li>
 </ol>
 <ul>
 <li><p><a href="https://blog.csdn.net/bryant_meng/article/details/83056203" target="_blank" rel="noopener">CSDN解读</a></p>
@@ -835,15 +829,15 @@ D=\{0, s, 2 s, 3 s . .\}</script><p>s是量化步长。</p>
 <li><p>实验结果：</p>
 <ol>
 <li><p>WIDER FACE Dataset</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g541jdkwhrj30v70u07bl.jpg" alt="image-20190718154943309"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g541jdkwhrj30v70u07bl-20220717190330356.jpg" alt="image-20190718154943309"></p>
 </li>
 </ol>
 </li>
 </ul>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g541lu1m7dj310c0e076z.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g541lu1m7dj310c0e076z.jpg" style="zoom:50%"></p>
 <ol>
 <li><p>Pascal VOC</p>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g541o5xe3zj31040cu76i.jpg" alt="image-20190718155419344"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g541o5xe3zj31040cu76i.jpg" alt="image-20190718155419344"></p>
 <p>效果有点儿差哦,有一定的参考价值。</p>
 </li>
 </ol>
@@ -859,7 +853,7 @@ D=\{0, s, 2 s, 3 s . .\}</script><p>s是量化步长。</p>
 <li><p>模型：toy-detector, faster R-CNN.</p>
 </li>
 <li><p>方法：</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g543cgs196j30to0si44j.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g543cgs196j30to0si44j.jpg" style="zoom:50%"></p>
 <ol>
 <li><p>如图所示，首先计算特征图上每个点所有anchors和gtbox的IOU，然后计算出最大的IOU值，$M = max(m)$ .然后乘一个阈值因子$\psi$ ,然后得到一个阈值$F=\psi * M$ .用这个阈值去过滤IOU map,得到一个WXH的map,最后结合所有的gtbox得到一个mask I.</p>
 </li>
@@ -876,14 +870,14 @@ L=L_{g t}+\lambda L_{i m i t a t i o n}</script><ul>
 <li><p>实验结果：</p>
 <ol>
 <li><p>toy-detector</p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g5449r87amj31mo0q6wh0.jpg"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5449r87amj31mo0q6wh0.jpg"></p>
 </li>
 </ol>
 </li>
 </ul>
 <ol>
 <li><p>Faster R-CNN</p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g544fo2zu5j31iq0u0qay.jpg" alt="image-20190718172955271"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g544fo2zu5j31iq0u0qay.jpg" alt="image-20190718172955271"></p>
 </li>
 </ol>
 <ul>
@@ -933,10 +927,10 @@ f\left(\mathbf{x}_{i}\right)=\frac{\max \left\{\mathbf{x}_{i(j)}\right\} \forall
 </li>
 <li><p>实验结果</p>
 <p>在LFW数据集上进行人脸验证，人脸验证通过计算欧式距离来实现。评价指标AUC。</p>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g54zjxb288j31800d2dhw.jpg" alt="image-20190719112633318"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g54zjxb288j31800d2dhw.jpg" alt="image-20190719112633318"></p>
 </li>
 </ul>
-<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g54zkhl1dhj30nc0pmq64.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g54zkhl1dhj30nc0pmq64.jpg" style="zoom:50%"></p>
 <ul>
 <li><p>复现难度：<a href="https://github.com/liuziwei7/mobile-id" target="_blank" rel="noopener">开源</a></p>
 <hr>
@@ -959,7 +953,7 @@ f\left(\mathbf{x}_{i}\right)=\frac{\max \left\{\mathbf{x}_{i(j)}\right\} \forall
 <p>通过这种方式m被限制在了$m_{min}$ 和 $m_{max}$ 之间。</p>
 </li>
 <li><p><strong>实验结果：</strong> </p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79ly1g555d2woo1j30j605474v.jpg" style="zoom:70%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g555d2woo1j30j605474v.jpg" style="zoom:70%"></p>
 <p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g555gehz77j30iu09m0u1.jpg" style="zoom:50%"></p>
 </li>
 <li><p>复现难度：将要开源</p>
@@ -971,7 +965,7 @@ f\left(\mathbf{x}_{i}\right)=\frac{\max \left\{\mathbf{x}_{i(j)}\right\} \forall
 <li><p><strong>数据集：</strong> LFW</p>
 </li>
 <li><p><strong>实验结果：</strong> </p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79ly1g5c44c953uj30j40ayabb.jpg" style="zoom:50%"></p>
+<p><img src="https://xy-cloud-images.oss-cn-shanghai.aliyuncs.com/img/006tNc79ly1g5c44c953uj30j40ayabb.jpg" style="zoom:50%"></p>
 </li>
 </ul>
 <h3 id="开源统计："><a href="#开源统计：" class="headerlink" title="开源统计："></a>开源统计：</h3><p><a href="https://github.com/RuiChen96/MaskRCNN-PyTorch" target="_blank" rel="noopener">MaskRcnn with Knowledge Distillation (pytorch)</a> </p>
@@ -1752,7 +1746,7 @@ f\left(\mathbf{x}_{i}\right)=\frac{\max \left\{\mathbf{x}_{i(j)}\right\} \forall
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
